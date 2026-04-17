@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,300;6..96,400&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; zoom: 1.5; }
 
 body {
   font-family: 'IBM Plex Mono', monospace;
@@ -20,8 +20,6 @@ body {
   position: relative;
   overflow-x: hidden;
 }
-
-/* blueprint grid major */
 body::before {
   content: '';
   position: fixed; inset: 0; pointer-events: none; z-index: 0;
@@ -30,7 +28,6 @@ body::before {
     linear-gradient(90deg, rgba(30,80,140,0.1) 1px, transparent 1px);
   background-size: 40px 40px;
 }
-/* blueprint grid minor */
 body::after {
   content: '';
   position: fixed; inset: 0; pointer-events: none; z-index: 0;
@@ -39,196 +36,125 @@ body::after {
     linear-gradient(90deg, rgba(30,80,140,0.04) 1px, transparent 1px);
   background-size: 8px 8px;
 }
+.refractions { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.ref { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.13; }
+.ref-1 { width: 380px; height: 180px; background: linear-gradient(135deg,#ff6b6b,#ffd93d); top:-50px; left:-60px; transform:rotate(-18deg); }
+.ref-2 { width: 280px; height: 140px; background: linear-gradient(135deg,#6bcbff,#a78bfa); top:25%; right:-50px; transform:rotate(14deg); }
+.ref-3 { width: 320px; height: 110px; background: linear-gradient(135deg,#6bffb8,#ffd93d); bottom:18%; left:8%; transform:rotate(-10deg); }
 
-/* refraction beams */
-.refractions {
-  position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
-}
-.ref { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.14; }
-.ref-1 { width: 380px; height: 180px; background: linear-gradient(135deg, #ff6b6b, #ffd93d); top: -50px; left: -60px; transform: rotate(-18deg); }
-.ref-2 { width: 280px; height: 140px; background: linear-gradient(135deg, #6bcbff, #a78bfa); top: 25%; right: -50px; transform: rotate(14deg); }
-.ref-3 { width: 320px; height: 110px; background: linear-gradient(135deg, #6bffb8, #ffd93d); bottom: 18%; left: 8%; transform: rotate(-10deg); }
+.panel { position: relative; z-index: 1; width: 100%; max-width: 620px; }
 
-.panel {
-  position: relative; z-index: 1;
-  width: 100%; max-width: 620px;
-}
-
-/* back link */
 .back {
   display: inline-flex; align-items: center; gap: 0.4rem;
   font-size: 0.62rem; letter-spacing: 0.12em;
   color: #0a2a4a; text-decoration: none;
   text-transform: uppercase; margin-bottom: 2rem;
-  transition: color 0.2s;
 }
 .back:hover { color: #8B5520; }
 
-/* header */
 .kh { margin-bottom: 2.5rem; }
+.kh-top { display: flex; align-items: center; gap: 1.2rem; margin-bottom: 0.6rem; }
+.kh-mark { flex-shrink: 0; width: 52px; height: 52px; }
 .kh-wordmark {
   font-family: 'Bodoni Moda', serif;
-  font-size: clamp(2.2rem, 6vw, 3rem);
+  font-size: clamp(2rem, 5.5vw, 2.8rem);
   font-weight: 400; letter-spacing: 0.2em;
-  color: #0a1a2a; line-height: 1; margin-bottom: 0.6rem;
+  color: #0a1a2a; line-height: 1;
 }
 .kh-rule {
   width: 100%; height: 1px; margin: 0.6rem 0;
-  background: linear-gradient(90deg,
-    #B87333 0%, #C8894A 35%,
-    rgba(184,115,51,0.3) 60%, transparent 100%
-  );
+  background: linear-gradient(90deg, #B87333 0%, #C8894A 35%, rgba(184,115,51,0.3) 60%, transparent 100%);
 }
 .kh-sub {
   font-family: 'Bodoni Moda', serif;
-  font-size: 0.75rem; font-weight: 300;
-  letter-spacing: 0.22em; color: #0a2a4a;
-  text-transform: uppercase;
+  font-size: 0.72rem; font-weight: 300;
+  letter-spacing: 0.22em; color: #0a2a4a; text-transform: uppercase;
 }
-.kh-section {
-  font-size: 0.65rem; letter-spacing: 0.18em;
-  color: #8B5520; text-transform: uppercase; margin-top: 0.5rem;
-}
+.kh-section { font-size: 0.62rem; letter-spacing: 0.18em; color: #8B5520; text-transform: uppercase; margin-top: 0.4rem; }
 
-/* section label */
 .s-label {
-  font-size: 0.62rem; letter-spacing: 0.2em;
-  text-transform: uppercase; color: #0a2a4a;
-  margin: 2rem 0 0.9rem;
-  padding-bottom: 0.6rem;
+  font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: #0a2a4a;
+  margin: 2rem 0 0.9rem; padding-bottom: 0.6rem;
   border-bottom: 1px solid rgba(10,40,80,0.2);
 }
 
-/* cards */
 .card {
   background: rgba(255,255,255,0.8);
   border: 1px solid rgba(10,40,80,0.12);
-  border-radius: 4px;
-  padding: 1rem 1.2rem;
-  margin-bottom: 6px;
-  backdrop-filter: blur(4px);
+  border-radius: 4px; padding: 1rem 1.2rem;
+  margin-bottom: 6px; backdrop-filter: blur(4px);
 }
 .card.copper { border-left: 2px solid #B87333; }
-.card-row {
-  display: flex; justify-content: space-between; align-items: center;
-}
+.card-row { display: flex; justify-content: space-between; align-items: center; }
 .card-left { display: flex; flex-direction: column; gap: 4px; }
 .card-name {
   font-family: 'Bodoni Moda', serif;
-  font-size: 1rem; font-weight: 400;
-  color: #0a1a2a; letter-spacing: 0.06em;
+  font-size: 1rem; font-weight: 400; color: #0a1a2a; letter-spacing: 0.06em;
 }
-.card-meta {
-  font-size: 0.62rem; color: #1a3a5a;
-  letter-spacing: 0.06em; line-height: 1.6;
-}
+.card-meta { font-size: 0.6rem; color: #1a3a5a; letter-spacing: 0.06em; line-height: 1.6; }
 .card-price {
   font-family: 'Bodoni Moda', serif;
-  font-size: 1.5rem; font-weight: 400;
-  color: #0a1a2a; flex-shrink: 0; margin-left: 1rem;
+  font-size: 1.5rem; font-weight: 400; color: #0a1a2a;
+  flex-shrink: 0; margin-left: 1rem;
 }
 
-/* cycle table */
-.cycle-note {
-  font-size: 0.62rem; color: #1a3a5a;
-  letter-spacing: 0.04em; line-height: 2;
-  margin-bottom: 1.2rem;
-}
+.cycle-note { font-size: 0.6rem; color: #1a3a5a; letter-spacing: 0.04em; line-height: 2; margin-bottom: 1.2rem; }
 .cycle-wrap { overflow-x: auto; }
 
-table.cycle {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0 5px;
-}
+table.cycle { width: 100%; border-collapse: separate; border-spacing: 0 5px; }
 table.cycle thead th {
-  font-size: 0.6rem; letter-spacing: 0.16em;
-  text-transform: uppercase; font-weight: 400;
-  padding: 0 1rem 0.6rem; text-align: right;
-  white-space: nowrap;
+  font-size: 0.58rem; letter-spacing: 0.16em; text-transform: uppercase;
+  font-weight: 400; padding: 0 1rem 0.6rem; text-align: right; white-space: nowrap;
 }
 table.cycle thead th:first-child { text-align: left; padding-left: 1rem; color: #0a2a4a; }
 table.cycle thead th.col-90 { color: #8B5520; }
 table.cycle thead th.col-60 { color: #0a2a4a; }
-
 table.cycle tbody td {
   background: rgba(255,255,255,0.75);
   border-top: 1px solid rgba(10,40,80,0.1);
   border-bottom: 1px solid rgba(10,40,80,0.1);
-  padding: 0.75rem 1rem;
-  text-align: right;
-  backdrop-filter: blur(4px);
+  padding: 0.75rem 1rem; text-align: right; backdrop-filter: blur(4px);
 }
 table.cycle tbody td:first-child {
   border-left: 1px solid rgba(10,40,80,0.1);
-  border-radius: 4px 0 0 4px;
-  text-align: left;
+  border-radius: 4px 0 0 4px; text-align: left;
 }
 table.cycle tbody td:last-child {
   border-right: 1px solid rgba(10,40,80,0.1);
   border-radius: 0 4px 4px 0;
 }
-
-.r-p { font-size: 0.8rem; color: #0a2a4a; letter-spacing: 0.06em; }
-.r-v {
-  font-family: 'Bodoni Moda', serif;
-  font-size: 1.15rem; font-weight: 400; color: #0a1a2a;
-}
+.r-p { font-size: 0.78rem; color: #0a2a4a; letter-spacing: 0.06em; }
+.r-v { font-family: 'Bodoni Moda', serif; font-size: 1.15rem; font-weight: 400; color: #0a1a2a; }
 .r-v.low { color: #4a7a9a; }
 
 .savings-hint {
-  display: flex; justify-content: flex-end;
-  gap: 2rem; margin-top: 0.5rem;
+  display: flex; justify-content: flex-end; gap: 2rem; margin-top: 0.5rem;
   font-size: 0.52rem; color: #4a7a9a; letter-spacing: 0.1em;
 }
 
-/* org lab */
 .org-card {
   background: rgba(255,255,255,0.65);
   border: 1px solid rgba(10,40,80,0.1);
   border-radius: 4px; padding: 1rem 1.2rem;
   display: flex; justify-content: space-between; align-items: center;
 }
-.org-inquiry {
-  font-size: 0.68rem; color: #8B5520;
-  letter-spacing: 0.1em; text-transform: uppercase;
-  flex-shrink: 0; margin-left: 1rem;
-}
+.org-inquiry { font-size: 0.66rem; color: #8B5520; letter-spacing: 0.1em; text-transform: uppercase; flex-shrink: 0; margin-left: 1rem; }
 
-/* policy */
 .policy {
   margin-top: 2rem; padding: 1.1rem 1.2rem;
   background: rgba(255,255,255,0.6);
   border: 1px solid rgba(10,40,80,0.1);
-  border-left: 2px solid #B87333;
-  border-radius: 4px;
+  border-left: 2px solid #B87333; border-radius: 4px;
 }
-.policy p {
-  font-size: 0.62rem; color: #0a2a4a;
-  letter-spacing: 0.04em; line-height: 1.9;
-}
+.policy p { font-size: 0.6rem; color: #0a2a4a; letter-spacing: 0.04em; line-height: 1.9; }
 .policy p + p { margin-top: 0.5rem; }
 
-/* footer */
-.kf {
-  text-align: center; margin-top: 2.5rem;
-  padding-top: 1.4rem;
-  border-top: 1px solid rgba(184,115,51,0.3);
-}
-.kf-wordmark {
-  font-family: 'Bodoni Moda', serif;
-  font-size: 1rem; font-weight: 300;
-  letter-spacing: 0.22em; color: #0a2a4a;
-}
-.kf-contact {
-  font-size: 0.6rem; color: #1a3a5a;
-  letter-spacing: 0.08em; margin-top: 0.5rem;
-}
+.kf { text-align: center; margin-top: 2.5rem; padding-top: 1.4rem; border-top: 1px solid rgba(184,115,51,0.3); }
+.kf-wordmark { font-family: 'Bodoni Moda', serif; font-size: 1rem; font-weight: 300; letter-spacing: 0.22em; color: #0a2a4a; }
+.kf-contact { font-size: 0.58rem; color: #1a3a5a; letter-spacing: 0.08em; margin-top: 0.5rem; }
 .kf-contact a { color: #8B5520; text-decoration: none; }
 
-@media (max-width: 480px) {
-  body { padding: 2rem 0.75rem 4rem; }
-}
+@media (max-width: 480px) { body { padding: 2rem 0.75rem 4rem; } }
 </style>
 </head>
 <body>
@@ -244,13 +170,15 @@ table.cycle tbody td:last-child {
   <a class="back" href="/">← kiprisma.com</a>
 
   <div class="kh">
-    <div class="kh-wordmark">KIPRISMA</div>
+    <div class="kh-top">
+      <img class="kh-mark" src="/kiprisma-mark.svg" alt="Kiprisma"/>
+      <div class="kh-wordmark">KIPRISMA</div>
+    </div>
     <div class="kh-rule"></div>
     <div class="kh-sub">Connective Communication</div>
     <div class="kh-section">Lang.Lab · Service Rates</div>
   </div>
 
-  <!-- SINGLE SESSIONS -->
   <div class="s-label">Single Sessions</div>
 
   <div class="card copper">
@@ -283,7 +211,6 @@ table.cycle tbody td:last-child {
     </div>
   </div>
 
-  <!-- CYCLE SESSIONS -->
   <div class="s-label">4-Week Cycles · Prepaid · Price Per Person</div>
 
   <p class="cycle-note">
@@ -331,7 +258,6 @@ table.cycle tbody td:last-child {
     <span>more accessible →</span>
   </div>
 
-  <!-- ORG LAB -->
   <div class="s-label">Org.Lab · In-Company Programs</div>
   <div class="org-card">
     <div class="card-left">
@@ -341,13 +267,11 @@ table.cycle tbody td:last-child {
     <span class="org-inquiry">Upon inquiry</span>
   </div>
 
-  <!-- POLICY -->
   <div class="policy">
     <p>Rates are fixed. All sessions booked through kiprisma.com. Cycles prepaid in full upon scheduling. No negotiation.</p>
     <p>Christopher Michael is an independent educator and consultant. Services are educational and complementary in nature. Advisory services are non-transactional in scope.</p>
   </div>
 
-  <!-- FOOTER -->
   <div class="kf">
     <div class="kf-wordmark">KIPRISMA</div>
     <div class="kf-contact">
