@@ -3,390 +3,358 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kiprisma — ]Language Practice[</title>
-<link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:wght@400&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
+<title>Kiprisma — Lang.Lab Rates</title>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,300;6..96,400&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
 html { scroll-behavior: smooth; }
 
 body {
   font-family: 'IBM Plex Mono', monospace;
-  background: #f0f5f2;
+  background: #dce8f0;
   min-height: 100vh;
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  padding: 2.4rem 1rem 4rem;
+  padding: 3rem 1rem 5rem;
   position: relative;
   overflow-x: hidden;
 }
 
-/* Blueprint grid */
+/* blueprint grid major */
 body::before {
   content: '';
   position: fixed; inset: 0; pointer-events: none; z-index: 0;
   background-image:
-    linear-gradient(rgba(80,140,180,0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(80,140,180,0.08) 1px, transparent 1px);
+    linear-gradient(rgba(30,80,140,0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(30,80,140,0.1) 1px, transparent 1px);
   background-size: 40px 40px;
 }
+/* blueprint grid minor */
 body::after {
   content: '';
   position: fixed; inset: 0; pointer-events: none; z-index: 0;
   background-image:
-    linear-gradient(rgba(80,140,180,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(80,140,180,0.04) 1px, transparent 1px);
+    linear-gradient(rgba(30,80,140,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(30,80,140,0.04) 1px, transparent 1px);
   background-size: 8px 8px;
 }
 
-/* Pastel ambient */
-.ambient {
-  position: fixed; inset: 0; z-index: 0; pointer-events: none;
-  background: linear-gradient(135deg,
-    #e8f4f0 0%, #eaf0f8 35%, #f5f0e8 70%, #f0f5e8 100%
-  );
+/* refraction beams */
+.refractions {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
 }
+.ref { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.14; }
+.ref-1 { width: 380px; height: 180px; background: linear-gradient(135deg, #ff6b6b, #ffd93d); top: -50px; left: -60px; transform: rotate(-18deg); }
+.ref-2 { width: 280px; height: 140px; background: linear-gradient(135deg, #6bcbff, #a78bfa); top: 25%; right: -50px; transform: rotate(14deg); }
+.ref-3 { width: 320px; height: 110px; background: linear-gradient(135deg, #6bffb8, #ffd93d); bottom: 18%; left: 8%; transform: rotate(-10deg); }
 
 .panel {
   position: relative; z-index: 1;
-  width: 100%; max-width: 640px;
+  width: 100%; max-width: 620px;
 }
 
-/* ── HEADER ── */
-.kh {
-  text-align: center;
-  margin-bottom: 1.8rem;
+/* back link */
+.back {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-size: 0.62rem; letter-spacing: 0.12em;
+  color: #0a2a4a; text-decoration: none;
+  text-transform: uppercase; margin-bottom: 2rem;
+  transition: color 0.2s;
 }
-.kh h1 {
-  font-family: 'Libre Bodoni', serif;
-  font-size: clamp(1.7rem, 4vw, 2.1rem);
-  font-weight: 400;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #1e2e26;
-  margin: 0 0 0.45rem;
-  line-height: 1;
+.back:hover { color: #8B5520; }
+
+/* header */
+.kh { margin-bottom: 2.5rem; }
+.kh-wordmark {
+  font-family: 'Bodoni Moda', serif;
+  font-size: clamp(2.2rem, 6vw, 3rem);
+  font-weight: 400; letter-spacing: 0.2em;
+  color: #0a1a2a; line-height: 1; margin-bottom: 0.6rem;
 }
-.sline-h {
-  height: 1px;
-  margin: 0.6rem auto;
-  width: 65%;
+.kh-rule {
+  width: 100%; height: 1px; margin: 0.6rem 0;
   background: linear-gradient(90deg,
-    transparent,
-    rgba(200,80,60,0.3) 12%,
-    rgba(200,175,60,0.25) 32%,
-    rgba(60,160,100,0.25) 55%,
-    rgba(60,120,200,0.28) 76%,
-    transparent
+    #B87333 0%, #C8894A 35%,
+    rgba(184,115,51,0.3) 60%, transparent 100%
   );
 }
 .kh-sub {
-  font-size: 0.62rem;
-  font-weight: 300;
-  letter-spacing: 0.28em;
-  color: #4a6a50;
+  font-family: 'Bodoni Moda', serif;
+  font-size: 0.75rem; font-weight: 300;
+  letter-spacing: 0.22em; color: #0a2a4a;
   text-transform: uppercase;
-  margin: 0;
 }
-.br { color: rgba(60,160,100,0.6); font-weight: 300; }
-
-/* ── SPECTRUM DIVIDER ── */
-.sline {
-  height: 1px;
-  margin: 0 0 1.8rem;
-  background: linear-gradient(90deg,
-    transparent,
-    rgba(200,80,60,0.3) 12%,
-    rgba(200,175,60,0.25) 32%,
-    rgba(60,160,100,0.25) 55%,
-    rgba(60,120,200,0.28) 76%,
-    transparent
-  );
+.kh-section {
+  font-size: 0.65rem; letter-spacing: 0.18em;
+  color: #8B5520; text-transform: uppercase; margin-top: 0.5rem;
 }
 
-/* ── START HERE CARD ── */
-.start-card {
-  background: rgba(255,255,255,0.85);
-  border: 1px solid rgba(60,160,100,0.3);
-  border-radius: 12px;
-  padding: 1rem 1.25rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-}
-.start-badge {
-  flex-shrink: 0;
-  background: #2a3a32;
-  color: #e8f0ec;
-  font-size: 0.58rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  padding: 0.45rem 0.8rem;
-  border-radius: 6px;
-  white-space: nowrap;
-}
-.start-body { flex: 1; }
-.start-body strong {
-  display: block;
-  font-size: 0.82rem;
-  font-weight: 500;
-  color: #1e2e26;
-  letter-spacing: 0.04em;
-  margin-bottom: 0.2rem;
-}
-.start-body span {
-  font-size: 0.65rem;
-  color: #5a7060;
-  letter-spacing: 0.03em;
-}
-.start-price { text-align: right; flex-shrink: 0; }
-.start-price .price-big {
-  font-size: 1.4rem;
-  font-weight: 400;
-  color: #1e2e26;
-  display: block;
-}
-.start-price .price-meta {
-  font-size: 0.6rem;
-  color: #7a9080;
-  letter-spacing: 0.08em;
+/* section label */
+.s-label {
+  font-size: 0.62rem; letter-spacing: 0.2em;
+  text-transform: uppercase; color: #0a2a4a;
+  margin: 2rem 0 0.9rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid rgba(10,40,80,0.2);
 }
 
-/* ── CYCLE TABLE ── */
-.cycle-label {
-  text-align: center;
-  font-size: 0.6rem;
-  letter-spacing: 0.18em;
-  color: #5a7060;
-  text-transform: uppercase;
-  margin: 0 0 0.9rem;
+/* cards */
+.card {
+  background: rgba(255,255,255,0.8);
+  border: 1px solid rgba(10,40,80,0.12);
+  border-radius: 4px;
+  padding: 1rem 1.2rem;
+  margin-bottom: 6px;
+  backdrop-filter: blur(4px);
 }
-.rate-table {
+.card.copper { border-left: 2px solid #B87333; }
+.card-row {
+  display: flex; justify-content: space-between; align-items: center;
+}
+.card-left { display: flex; flex-direction: column; gap: 4px; }
+.card-name {
+  font-family: 'Bodoni Moda', serif;
+  font-size: 1rem; font-weight: 400;
+  color: #0a1a2a; letter-spacing: 0.06em;
+}
+.card-meta {
+  font-size: 0.62rem; color: #1a3a5a;
+  letter-spacing: 0.06em; line-height: 1.6;
+}
+.card-price {
+  font-family: 'Bodoni Moda', serif;
+  font-size: 1.5rem; font-weight: 400;
+  color: #0a1a2a; flex-shrink: 0; margin-left: 1rem;
+}
+
+/* cycle table */
+.cycle-note {
+  font-size: 0.62rem; color: #1a3a5a;
+  letter-spacing: 0.04em; line-height: 2;
+  margin-bottom: 1.2rem;
+}
+.cycle-wrap { overflow-x: auto; }
+
+table.cycle {
   width: 100%;
   border-collapse: separate;
-  border-spacing: 0 4px;
+  border-spacing: 0 5px;
 }
-.rate-table thead th {
-  font-size: 0.6rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: #7a9080;
-  font-weight: 400;
-  padding: 0 0 0.6rem;
+table.cycle thead th {
+  font-size: 0.6rem; letter-spacing: 0.16em;
+  text-transform: uppercase; font-weight: 400;
+  padding: 0 1rem 0.6rem; text-align: right;
+  white-space: nowrap;
 }
-.rate-table thead th:first-child { text-align: left; width: 22%; }
-.rate-table thead th:not(:first-child) { text-align: center; width: 39%; }
+table.cycle thead th:first-child { text-align: left; padding-left: 1rem; color: #0a2a4a; }
+table.cycle thead th.col-90 { color: #8B5520; }
+table.cycle thead th.col-60 { color: #0a2a4a; }
 
-.rate-table tbody td { padding: 3px 0; vertical-align: middle; }
-.rate-table tbody td:first-child { padding-right: 0.5rem; }
-
-.client-n {
-  font-size: 0.72rem;
-  font-weight: 400;
-  color: #1e2e26;
-  letter-spacing: 0.04em;
+table.cycle tbody td {
+  background: rgba(255,255,255,0.75);
+  border-top: 1px solid rgba(10,40,80,0.1);
+  border-bottom: 1px solid rgba(10,40,80,0.1);
+  padding: 0.75rem 1rem;
+  text-align: right;
+  backdrop-filter: blur(4px);
 }
-.price-cell { text-align: center; }
-.price-box {
-  display: inline-block;
-  width: 100%;
-  background: rgba(255,255,255,0.78);
-  border: 1px solid rgba(180,200,190,0.4);
-  border-radius: 10px;
-  padding: 0.65rem 0;
-  font-size: 1.1rem;
-  font-weight: 400;
-  color: #1e2e26;
-  transition: border-color 0.2s;
+table.cycle tbody td:first-child {
+  border-left: 1px solid rgba(10,40,80,0.1);
+  border-radius: 4px 0 0 4px;
+  text-align: left;
 }
-.price-box:hover { border-color: rgba(60,160,100,0.35); }
-.price-box.featured {
-  border: 1.5px solid rgba(60,160,120,0.55);
-  background: rgba(225,245,235,0.7);
+table.cycle tbody td:last-child {
+  border-right: 1px solid rgba(10,40,80,0.1);
+  border-radius: 0 4px 4px 0;
 }
 
-/* ── SINGLE SESSIONS ── */
-.single-card {
-  background: rgba(255,255,255,0.78);
-  border: 1px solid rgba(200,165,60,0.35);
-  border-radius: 12px;
-  padding: 1rem 1.25rem;
-  margin-top: 1.5rem;
+.r-p { font-size: 0.8rem; color: #0a2a4a; letter-spacing: 0.06em; }
+.r-v {
+  font-family: 'Bodoni Moda', serif;
+  font-size: 1.15rem; font-weight: 400; color: #0a1a2a;
 }
-.single-head {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  margin-bottom: 0.5rem;
-}
-.single-head strong {
-  font-size: 0.82rem;
-  font-weight: 500;
-  color: #1e2e26;
-  letter-spacing: 0.04em;
-}
-.min-badge {
-  font-size: 0.58rem;
-  letter-spacing: 0.1em;
-  color: #8a7040;
-  background: rgba(250,200,100,0.25);
-  border: 1px solid rgba(200,165,60,0.3);
-  border-radius: 20px;
-  padding: 0.2rem 0.7rem;
-}
-.single-desc {
-  font-size: 0.62rem;
-  color: #6a7060;
-  letter-spacing: 0.03em;
-  line-height: 1.7;
-  margin-bottom: 0.9rem;
-}
-.single-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-}
-.single-option {
-  background: rgba(245,248,244,0.8);
-  border: 1px solid rgba(180,200,185,0.35);
-  border-radius: 8px;
-  padding: 0.65rem 0.9rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.single-option span:first-child {
-  font-size: 0.65rem;
-  color: #5a7060;
-  letter-spacing: 0.06em;
-}
-.single-option span:last-child {
-  font-size: 1rem;
-  font-weight: 400;
-  color: #1e2e26;
+.r-v.low { color: #4a7a9a; }
+
+.savings-hint {
+  display: flex; justify-content: flex-end;
+  gap: 2rem; margin-top: 0.5rem;
+  font-size: 0.52rem; color: #4a7a9a; letter-spacing: 0.1em;
 }
 
-/* ── FOOTER ── */
+/* org lab */
+.org-card {
+  background: rgba(255,255,255,0.65);
+  border: 1px solid rgba(10,40,80,0.1);
+  border-radius: 4px; padding: 1rem 1.2rem;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.org-inquiry {
+  font-size: 0.68rem; color: #8B5520;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  flex-shrink: 0; margin-left: 1rem;
+}
+
+/* policy */
+.policy {
+  margin-top: 2rem; padding: 1.1rem 1.2rem;
+  background: rgba(255,255,255,0.6);
+  border: 1px solid rgba(10,40,80,0.1);
+  border-left: 2px solid #B87333;
+  border-radius: 4px;
+}
+.policy p {
+  font-size: 0.62rem; color: #0a2a4a;
+  letter-spacing: 0.04em; line-height: 1.9;
+}
+.policy p + p { margin-top: 0.5rem; }
+
+/* footer */
 .kf {
-  text-align: center;
-  margin-top: 1.4rem;
-  font-size: 0.6rem;
-  color: #7a9080;
-  letter-spacing: 0.1em;
-  line-height: 1.9;
+  text-align: center; margin-top: 2.5rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid rgba(184,115,51,0.3);
 }
-.stripe-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  background: rgba(255,255,255,0.8);
-  border: 1px solid rgba(180,200,190,0.4);
-  border-radius: 20px;
-  padding: 0.3rem 0.9rem;
-  font-size: 0.6rem;
-  color: #3a5a80;
-  letter-spacing: 0.1em;
-  margin-top: 0.6rem;
+.kf-wordmark {
+  font-family: 'Bodoni Moda', serif;
+  font-size: 1rem; font-weight: 300;
+  letter-spacing: 0.22em; color: #0a2a4a;
 }
-.stripe-dot {
-  width: 7px; height: 7px;
-  border-radius: 50%;
-  background: #5b8ce0;
-  display: inline-block;
-  flex-shrink: 0;
+.kf-contact {
+  font-size: 0.6rem; color: #1a3a5a;
+  letter-spacing: 0.08em; margin-top: 0.5rem;
 }
+.kf-contact a { color: #8B5520; text-decoration: none; }
 
-/* ── RESPONSIVE ── */
 @media (max-width: 480px) {
-  body { padding: 1.5rem 0.75rem 3rem; }
-  .start-card { flex-wrap: wrap; }
-  .start-price { width: 100%; text-align: left; }
-  .rate-table thead th:first-child { width: 18%; }
+  body { padding: 2rem 0.75rem 4rem; }
 }
 </style>
 </head>
 <body>
 
-<div class="ambient"></div>
+<div class="refractions">
+  <div class="ref ref-1"></div>
+  <div class="ref ref-2"></div>
+  <div class="ref ref-3"></div>
+</div>
 
 <div class="panel">
 
-  <!-- HEADER -->
+  <a class="back" href="/">← kiprisma.com</a>
+
   <div class="kh">
-    <h1>Kiprisma</h1>
-    <div class="sline-h"></div>
-    <p class="kh-sub"><span class="br">]</span> Language Practice <span class="br">[</span></p>
+    <div class="kh-wordmark">KIPRISMA</div>
+    <div class="kh-rule"></div>
+    <div class="kh-sub">Connective Communication</div>
+    <div class="kh-section">Lang.Lab · Service Rates</div>
   </div>
-
-  <div class="sline"></div>
-
-  <!-- START HERE -->
-  <div class="start-card">
-    <div class="start-badge">Start here</div>
-    <div class="start-body">
-      <strong>Skills analysis session</strong>
-      <span>Assess needs, set goals &amp; schedule your cycle — required for all new clients</span>
-    </div>
-    <div class="start-price">
-      <span class="price-big">$75</span>
-      <span class="price-meta">75 min · one-time</span>
-    </div>
-  </div>
-
-  <!-- CYCLE TABLE -->
-  <p class="cycle-label">4-session cycle · prepaid · price per person</p>
-
-  <table class="rate-table">
-    <thead>
-      <tr>
-        <th>Client(s)</th>
-        <th>90 min</th>
-        <th>60 min</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="client-n">1</span></td>
-        <td class="price-cell"><div class="price-box">$300</div></td>
-        <td class="price-cell"><div class="price-box">$200</div></td>
-      </tr>
-      <tr>
-        <td><span class="client-n">2</span></td>
-        <td class="price-cell"><div class="price-box featured">$200</div></td>
-        <td class="price-cell"><div class="price-box featured">$150</div></td>
-      </tr>
-      <tr>
-        <td><span class="client-n">3</span></td>
-        <td class="price-cell"><div class="price-box">$150</div></td>
-        <td class="price-cell"><div class="price-box">$125</div></td>
-      </tr>
-      <tr>
-        <td><span class="client-n">4+</span></td>
-        <td class="price-cell"><div class="price-box">$125</div></td>
-        <td class="price-cell"><div class="price-box">$100</div></td>
-      </tr>
-    </tbody>
-  </table>
 
   <!-- SINGLE SESSIONS -->
-  <div class="single-card">
-    <div class="single-head">
-      <strong>Single sessions</strong>
-      <span class="min-badge">75 min</span>
+  <div class="s-label">Single Sessions</div>
+
+  <div class="card copper">
+    <div class="card-row">
+      <div class="card-left">
+        <span class="card-name">Initial Analysis</span>
+        <span class="card-meta">45 min · goal assessment · path recommendation · all new clients</span>
+      </div>
+      <span class="card-price">$55</span>
     </div>
-    <p class="single-desc">Ideal for exam prep, interview readiness, or travel &amp; professional communication — focused, non-cyclical.</p>
-    <div class="single-grid">
-      <div class="single-option"><span>1-on-1</span><span>$85</span></div>
-      <div class="single-option"><span>2-on-1</span><span>$100</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-row">
+      <div class="card-left">
+        <span class="card-name">Exam Prep · Special Studies</span>
+        <span class="card-meta">60 min · 1 person · TOEFL · IELTS · NCLEX · focused session</span>
+      </div>
+      <span class="card-price">$70</span>
     </div>
+  </div>
+
+  <div class="card">
+    <div class="card-row">
+      <div class="card-left">
+        <span class="card-name">Exam Prep · Special Studies</span>
+        <span class="card-meta">60 min · 2 people max · shared focused session</span>
+      </div>
+      <span class="card-price">$90</span>
+    </div>
+  </div>
+
+  <!-- CYCLE SESSIONS -->
+  <div class="s-label">4-Week Cycles · Prepaid · Price Per Person</div>
+
+  <p class="cycle-note">
+    4 sessions over 4 weeks · paid in full upon booking · weekly frequency standard<br>
+    Lower proficiency levels may require 2–3× weekly<br>
+    Gap &gt;2 weeks between cycles requires calibration session · $55
+  </p>
+
+  <div class="cycle-wrap">
+    <table class="cycle">
+      <thead>
+        <tr>
+          <th>Participants</th>
+          <th class="col-90">90 min ↓</th>
+          <th class="col-60">60 min ↓</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="r-p">1 person</span></td>
+          <td><span class="r-v">$300</span></td>
+          <td><span class="r-v">$200</span></td>
+        </tr>
+        <tr>
+          <td><span class="r-p">2 people</span></td>
+          <td><span class="r-v">$200</span></td>
+          <td><span class="r-v">$150</span></td>
+        </tr>
+        <tr>
+          <td><span class="r-p">3 people</span></td>
+          <td><span class="r-v">$150</span></td>
+          <td><span class="r-v">$125</span></td>
+        </tr>
+        <tr>
+          <td><span class="r-p">4+ people</span></td>
+          <td><span class="r-v">$125</span></td>
+          <td><span class="r-v low">$100</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="savings-hint">
+    <span>← higher investment</span>
+    <span>more accessible →</span>
+  </div>
+
+  <!-- ORG LAB -->
+  <div class="s-label">Org.Lab · In-Company Programs</div>
+  <div class="org-card">
+    <div class="card-left">
+      <span class="card-name">Organizational Language Programs</span>
+      <span class="card-meta">Scope, format and investment determined through initial consultation</span>
+    </div>
+    <span class="org-inquiry">Upon inquiry</span>
+  </div>
+
+  <!-- POLICY -->
+  <div class="policy">
+    <p>Rates are fixed. All sessions booked through kiprisma.com. Cycles prepaid in full upon scheduling. No negotiation.</p>
+    <p>Christopher Michael is an independent educator and consultant. Services are educational and complementary in nature. Advisory services are non-transactional in scope.</p>
   </div>
 
   <!-- FOOTER -->
   <div class="kf">
-    All cycles are prepaid · price per person<br>
-    <span class="stripe-badge"><span class="stripe-dot"></span> Payments via Stripe</span>
+    <div class="kf-wordmark">KIPRISMA</div>
+    <div class="kf-contact">
+      <a href="mailto:contact@kiprisma.com">contact@kiprisma.com</a>
+      &nbsp;·&nbsp; kiprisma.com
+      &nbsp;·&nbsp; BOS &gt; NYC · Online
+    </div>
   </div>
 
 </div>
