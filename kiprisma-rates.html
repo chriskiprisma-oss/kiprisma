@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kiprisma — ]Language Practice[</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:wght@400&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'IBM Plex Mono', monospace;
+  background: #f0f5f2;
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 2.4rem 1rem 4rem;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Blueprint grid */
+body::before {
+  content: '';
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background-image:
+    linear-gradient(rgba(80,140,180,0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(80,140,180,0.08) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+body::after {
+  content: '';
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background-image:
+    linear-gradient(rgba(80,140,180,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(80,140,180,0.04) 1px, transparent 1px);
+  background-size: 8px 8px;
+}
+
+/* Pastel ambient */
+.ambient {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background: linear-gradient(135deg,
+    #e8f4f0 0%, #eaf0f8 35%, #f5f0e8 70%, #f0f5e8 100%
+  );
+}
+
+.panel {
+  position: relative; z-index: 1;
+  width: 100%; max-width: 640px;
+}
+
+/* ── HEADER ── */
+.kh {
+  text-align: center;
+  margin-bottom: 1.8rem;
+}
+.kh h1 {
+  font-family: 'Libre Bodoni', serif;
+  font-size: clamp(1.7rem, 4vw, 2.1rem);
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #1e2e26;
+  margin: 0 0 0.45rem;
+  line-height: 1;
+}
+.sline-h {
+  height: 1px;
+  margin: 0.6rem auto;
+  width: 65%;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(200,80,60,0.3) 12%,
+    rgba(200,175,60,0.25) 32%,
+    rgba(60,160,100,0.25) 55%,
+    rgba(60,120,200,0.28) 76%,
+    transparent
+  );
+}
+.kh-sub {
+  font-size: 0.62rem;
+  font-weight: 300;
+  letter-spacing: 0.28em;
+  color: #4a6a50;
+  text-transform: uppercase;
+  margin: 0;
+}
+.br { color: rgba(60,160,100,0.6); font-weight: 300; }
+
+/* ── SPECTRUM DIVIDER ── */
+.sline {
+  height: 1px;
+  margin: 0 0 1.8rem;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(200,80,60,0.3) 12%,
+    rgba(200,175,60,0.25) 32%,
+    rgba(60,160,100,0.25) 55%,
+    rgba(60,120,200,0.28) 76%,
+    transparent
+  );
+}
+
+/* ── START HERE CARD ── */
+.start-card {
+  background: rgba(255,255,255,0.85);
+  border: 1px solid rgba(60,160,100,0.3);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.start-badge {
+  flex-shrink: 0;
+  background: #2a3a32;
+  color: #e8f0ec;
+  font-size: 0.58rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.45rem 0.8rem;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+.start-body { flex: 1; }
+.start-body strong {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #1e2e26;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.2rem;
+}
+.start-body span {
+  font-size: 0.65rem;
+  color: #5a7060;
+  letter-spacing: 0.03em;
+}
+.start-price { text-align: right; flex-shrink: 0; }
+.start-price .price-big {
+  font-size: 1.4rem;
+  font-weight: 400;
+  color: #1e2e26;
+  display: block;
+}
+.start-price .price-meta {
+  font-size: 0.6rem;
+  color: #7a9080;
+  letter-spacing: 0.08em;
+}
+
+/* ── CYCLE TABLE ── */
+.cycle-label {
+  text-align: center;
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  color: #5a7060;
+  text-transform: uppercase;
+  margin: 0 0 0.9rem;
+}
+.rate-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 4px;
+}
+.rate-table thead th {
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #7a9080;
+  font-weight: 400;
+  padding: 0 0 0.6rem;
+}
+.rate-table thead th:first-child { text-align: left; width: 22%; }
+.rate-table thead th:not(:first-child) { text-align: center; width: 39%; }
+
+.rate-table tbody td { padding: 3px 0; vertical-align: middle; }
+.rate-table tbody td:first-child { padding-right: 0.5rem; }
+
+.client-n {
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: #1e2e26;
+  letter-spacing: 0.04em;
+}
+.price-cell { text-align: center; }
+.price-box {
+  display: inline-block;
+  width: 100%;
+  background: rgba(255,255,255,0.78);
+  border: 1px solid rgba(180,200,190,0.4);
+  border-radius: 10px;
+  padding: 0.65rem 0;
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: #1e2e26;
+  transition: border-color 0.2s;
+}
+.price-box:hover { border-color: rgba(60,160,100,0.35); }
+.price-box.featured {
+  border: 1.5px solid rgba(60,160,120,0.55);
+  background: rgba(225,245,235,0.7);
+}
+
+/* ── SINGLE SESSIONS ── */
+.single-card {
+  background: rgba(255,255,255,0.78);
+  border: 1px solid rgba(200,165,60,0.35);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  margin-top: 1.5rem;
+}
+.single-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+.single-head strong {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #1e2e26;
+  letter-spacing: 0.04em;
+}
+.min-badge {
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  color: #8a7040;
+  background: rgba(250,200,100,0.25);
+  border: 1px solid rgba(200,165,60,0.3);
+  border-radius: 20px;
+  padding: 0.2rem 0.7rem;
+}
+.single-desc {
+  font-size: 0.62rem;
+  color: #6a7060;
+  letter-spacing: 0.03em;
+  line-height: 1.7;
+  margin-bottom: 0.9rem;
+}
+.single-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.single-option {
+  background: rgba(245,248,244,0.8);
+  border: 1px solid rgba(180,200,185,0.35);
+  border-radius: 8px;
+  padding: 0.65rem 0.9rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.single-option span:first-child {
+  font-size: 0.65rem;
+  color: #5a7060;
+  letter-spacing: 0.06em;
+}
+.single-option span:last-child {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #1e2e26;
+}
+
+/* ── FOOTER ── */
+.kf {
+  text-align: center;
+  margin-top: 1.4rem;
+  font-size: 0.6rem;
+  color: #7a9080;
+  letter-spacing: 0.1em;
+  line-height: 1.9;
+}
+.stripe-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(255,255,255,0.8);
+  border: 1px solid rgba(180,200,190,0.4);
+  border-radius: 20px;
+  padding: 0.3rem 0.9rem;
+  font-size: 0.6rem;
+  color: #3a5a80;
+  letter-spacing: 0.1em;
+  margin-top: 0.6rem;
+}
+.stripe-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #5b8ce0;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 480px) {
+  body { padding: 1.5rem 0.75rem 3rem; }
+  .start-card { flex-wrap: wrap; }
+  .start-price { width: 100%; text-align: left; }
+  .rate-table thead th:first-child { width: 18%; }
+}
+</style>
+</head>
+<body>
+
+<div class="ambient"></div>
+
+<div class="panel">
+
+  <!-- HEADER -->
+  <div class="kh">
+    <h1>Kiprisma</h1>
+    <div class="sline-h"></div>
+    <p class="kh-sub"><span class="br">]</span> Language Practice <span class="br">[</span></p>
+  </div>
+
+  <div class="sline"></div>
+
+  <!-- START HERE -->
+  <div class="start-card">
+    <div class="start-badge">Start here</div>
+    <div class="start-body">
+      <strong>Skills analysis session</strong>
+      <span>Assess needs, set goals &amp; schedule your cycle — required for all new clients</span>
+    </div>
+    <div class="start-price">
+      <span class="price-big">$75</span>
+      <span class="price-meta">75 min · one-time</span>
+    </div>
+  </div>
+
+  <!-- CYCLE TABLE -->
+  <p class="cycle-label">4-session cycle · prepaid · price per person</p>
+
+  <table class="rate-table">
+    <thead>
+      <tr>
+        <th>Client(s)</th>
+        <th>90 min</th>
+        <th>60 min</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="client-n">1</span></td>
+        <td class="price-cell"><div class="price-box">$300</div></td>
+        <td class="price-cell"><div class="price-box">$200</div></td>
+      </tr>
+      <tr>
+        <td><span class="client-n">2</span></td>
+        <td class="price-cell"><div class="price-box featured">$200</div></td>
+        <td class="price-cell"><div class="price-box featured">$150</div></td>
+      </tr>
+      <tr>
+        <td><span class="client-n">3</span></td>
+        <td class="price-cell"><div class="price-box">$150</div></td>
+        <td class="price-cell"><div class="price-box">$125</div></td>
+      </tr>
+      <tr>
+        <td><span class="client-n">4+</span></td>
+        <td class="price-cell"><div class="price-box">$125</div></td>
+        <td class="price-cell"><div class="price-box">$100</div></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- SINGLE SESSIONS -->
+  <div class="single-card">
+    <div class="single-head">
+      <strong>Single sessions</strong>
+      <span class="min-badge">75 min</span>
+    </div>
+    <p class="single-desc">Ideal for exam prep, interview readiness, or travel &amp; professional communication — focused, non-cyclical.</p>
+    <div class="single-grid">
+      <div class="single-option"><span>1-on-1</span><span>$85</span></div>
+      <div class="single-option"><span>2-on-1</span><span>$100</span></div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="kf">
+    All cycles are prepaid · price per person<br>
+    <span class="stripe-badge"><span class="stripe-dot"></span> Payments via Stripe</span>
+  </div>
+
+</div>
+</body>
+</html>
