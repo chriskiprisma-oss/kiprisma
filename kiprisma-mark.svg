@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <!--
+    Kiprisma Mark — XY Cartesian
+    Origin: 28, 92
+    Scale: 1 unit = 22px
+    Range: 0 to 4 units
+    Square: (1,1)(3,1)(3,3)(1,3) — SVG: (50,48)(94,48)(94,4)(50,4) side=44px
+    Triangle: apex(2,3.6)→(72,13) base(0.72,0.8)→(44,75) (3.28,0.8)→(100,75)
+    Circle: center(2,2)→(72,48) r=1.22u=27px — grazes square edges
+  -->
+
+  <!-- blueprint grid — very faint -->
+  <g stroke="#0a0a0a" stroke-width="0.3" opacity="0.06">
+    <line x1="28" y1="0"   x2="28"  y2="110"/>
+    <line x1="50" y1="0"   x2="50"  y2="110"/>
+    <line x1="72" y1="0"   x2="72"  y2="110"/>
+    <line x1="94" y1="0"   x2="94"  y2="110"/>
+    <line x1="0"  y1="92"  x2="120" y2="92"/>
+    <line x1="0"  y1="70"  x2="120" y2="70"/>
+    <line x1="0"  y1="48"  x2="120" y2="48"/>
+    <line x1="0"  y1="26"  x2="120" y2="26"/>
+  </g>
+
+  <!-- X axis -->
+  <line x1="14" y1="92" x2="112" y2="92"
+    stroke="#0a0a0a" stroke-width="0.85" opacity="0.55"/>
+  <line x1="107" y1="89" x2="112" y2="92"
+    stroke="#0a0a0a" stroke-width="0.85" opacity="0.55"/>
+  <line x1="107" y1="95" x2="112" y2="92"
+    stroke="#0a0a0a" stroke-width="0.85" opacity="0.55"/>
+
+  <!-- Y axis -->
+  <line x1="28" y1="106" x2="28" y2="8"
+    stroke="#0a0a0a" stroke-width="0.85" opacity="0.55"/>
+  <line x1="25" y1="13" x2="28" y2="8"
+    stroke="#0a0a0a" stroke-width="0.85" opacity="0.55"/>
+  <line x1="31" y1="13" x2="28" y2="8"
+    stroke="#0a0a0a" stroke-width="0.85" opacity="0.55"/>
+
+  <!-- axis labels -->
+  <text x="114" y="96" font-family="monospace" font-size="7"
+    fill="#0a0a0a" opacity="0.4">x</text>
+  <text x="30" y="7" font-family="monospace" font-size="7"
+    fill="#0a0a0a" opacity="0.4">y</text>
+
+  <!-- origin -->
+  <circle cx="28" cy="92" r="1.4" fill="#0a0a0a" opacity="0.45"/>
+
+  <!-- Z axis — dashed dissipating diagonal vector from origin through all three shapes -->
+  <line x1="28"  y1="92"  x2="38"  y2="82"  stroke="#0a0a0a" stroke-width="0.7"  opacity="0.52" stroke-dasharray="2.5,2"/>
+  <line x1="38"  y1="82"  x2="50"  y2="70"  stroke="#0a0a0a" stroke-width="0.65" opacity="0.42" stroke-dasharray="2.5,2"/>
+  <line x1="50"  y1="70"  x2="62"  y2="58"  stroke="#0a0a0a" stroke-width="0.6"  opacity="0.32" stroke-dasharray="2.5,2"/>
+  <line x1="62"  y1="58"  x2="72"  y2="48"  stroke="#0a0a0a" stroke-width="0.55" opacity="0.22" stroke-dasharray="2.5,2"/>
+  <line x1="72"  y1="48"  x2="82"  y2="38"  stroke="#0a0a0a" stroke-width="0.5"  opacity="0.14" stroke-dasharray="2.5,2"/>
+  <line x1="82"  y1="38"  x2="92"  y2="28"  stroke="#0a0a0a" stroke-width="0.45" opacity="0.08" stroke-dasharray="2.5,2"/>
+  <line x1="92"  y1="28"  x2="100" y2="20"  stroke="#0a0a0a" stroke-width="0.4"  opacity="0.04" stroke-dasharray="2.5,2"/>
+  <!-- z arrowhead — ghost at terminus -->
+  <line x1="96" y1="17" x2="100" y2="20" stroke="#0a0a0a" stroke-width="0.4" opacity="0.08"/>
+  <line x1="98" y1="24" x2="100" y2="20" stroke="#0a0a0a" stroke-width="0.4" opacity="0.08"/>
+  <text x="102" y="20" font-family="monospace" font-size="6" fill="#0a0a0a" opacity="0.18">z</text>
+
+  <!-- tick marks -->
+  <g stroke="#0a0a0a" stroke-width="0.5" opacity="0.2">
+    <line x1="50" y1="90" x2="50" y2="94"/>
+    <line x1="72" y1="90" x2="72" y2="94"/>
+    <line x1="94" y1="90" x2="94" y2="94"/>
+    <line x1="26" y1="70" x2="30" y2="70"/>
+    <line x1="26" y1="48" x2="30" y2="48"/>
+    <line x1="26" y1="26" x2="30" y2="26"/>
+  </g>
+
+  <!-- CIRCLE — center (2,2)=72,48 r=27px — lightest, drawn first -->
+  <circle cx="72" cy="48" r="27"
+    fill="none" stroke="#888888" stroke-width="0.9" opacity="0.55"/>
+  <!-- circle crosshairs -->
+  <line x1="72" y1="21" x2="72" y2="75"
+    stroke="#888888" stroke-width="0.3" opacity="0.2"/>
+  <line x1="45" y1="48" x2="99" y2="48"
+    stroke="#888888" stroke-width="0.3" opacity="0.2"/>
+  <!-- circle quarter dots -->
+  <circle cx="72" cy="21" r="1.2" fill="#888888" opacity="0.45"/>
+  <circle cx="72" cy="75" r="1.2" fill="#888888" opacity="0.45"/>
+  <circle cx="45" cy="48" r="1.2" fill="#888888" opacity="0.45"/>
+  <circle cx="99" cy="48" r="1.2" fill="#888888" opacity="0.45"/>
+
+  <!-- TRIANGLE — apex(2,3.6)=72,13 base(0.72,0.8)=44,74 (3.28,0.8)=100,74 -->
+  <polygon points="72,13 44,74 100,74"
+    fill="none" stroke="#444444" stroke-width="0.9" opacity="0.58"/>
+  <!-- triangle median -->
+  <line x1="72" y1="13" x2="72" y2="74"
+    stroke="#444444" stroke-width="0.3" opacity="0.18"/>
+  <!-- triangle dots -->
+  <circle cx="72"  cy="13" r="1.4" fill="#444444" opacity="0.58"/>
+  <circle cx="44"  cy="74" r="1.4" fill="#444444" opacity="0.55"/>
+  <circle cx="100" cy="74" r="1.4" fill="#444444" opacity="0.55"/>
+
+  <!-- SQUARE — (1,1)(3,1)(3,3)(1,3) = (50,70)(94,70)(94,26)(50,26) side=44px -->
+  <!-- drawn last — darkest, most visible -->
+  <rect x="50" y="26" width="44" height="44"
+    fill="none" stroke="#0a0a0a" stroke-width="1.1" opacity="0.72"/>
+  <!-- square construction diagonals -->
+  <line x1="50" y1="26" x2="94" y2="70"
+    stroke="#0a0a0a" stroke-width="0.3" opacity="0.12"/>
+  <line x1="94" y1="26" x2="50" y2="70"
+    stroke="#0a0a0a" stroke-width="0.3" opacity="0.12"/>
+  <!-- square corner dots -->
+  <circle cx="50" cy="26" r="1.6" fill="#0a0a0a" opacity="0.68"/>
+  <circle cx="94" cy="26" r="1.6" fill="#0a0a0a" opacity="0.68"/>
+  <circle cx="50" cy="70" r="1.6" fill="#0a0a0a" opacity="0.68"/>
+  <circle cx="94" cy="70" r="1.6" fill="#0a0a0a" opacity="0.68"/>
+  <!-- center dot -->
+  <circle cx="72" cy="48" r="1.2" fill="#0a0a0a" opacity="0.25"/>
+
+</svg>
