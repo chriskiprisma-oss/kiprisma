@@ -1,406 +1,721 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kiprisma — Lang.Lab Rates</title>
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,300;6..96,400&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&amp;family=IBM+Plex+Mono:wght@300;400&amp;display=swap" rel="stylesheet"/>
+
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html {
-  scroll-behavior: smooth;
-  zoom: 1.5;
+
+:root {
+  --bg:          #0D1117;
+  --bg-panel:    #111827;
+  --bg-mid:      #161F2E;
+  --bg-lift:     #1A2438;
+  --rule:        rgba(255,255,255,0.07);
+  --rule-soft:   rgba(255,255,255,0.04);
+  --text-primary:   #E8EDF5;
+  --text-secondary: #A8B4C8;
+  --text-tertiary:  #6A7A94;
+  --text-dim:       #3D4E66;
+  --mono:  'IBM Plex Mono', monospace;
+  --serif: 'Cormorant Garamond', serif;
 }
+
+html { scroll-behavior: smooth; }
 
 body {
-  font-family: 'IBM Plex Mono', monospace;
-  background: #c8d8e4;
-  min-height: 100vh;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding: 3rem 1rem 5rem;
-  position: relative;
+  font-family: var(--mono);
+  background: var(--bg);
+  color: var(--text-primary);
+  font-size: 13.5px;
+  line-height: 1.9;
   overflow-x: hidden;
+  font-weight: 300;
 }
 
-/* blueprint grid — major */
-body::before {
-  content: '';
-  position: fixed; inset: 0; pointer-events: none; z-index: 0;
-  background-image:
-    linear-gradient(rgba(30,80,140,0.12) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(30,80,140,0.12) 1px, transparent 1px);
-  background-size: 40px 40px;
+/* ── AMBIENT REFRACTION LAYER ── */
+.refraction-bg {
+  position: fixed; inset: 0; z-index: 0;
+  pointer-events: none; overflow: hidden;
 }
-/* blueprint grid — minor */
-body::after {
-  content: '';
-  position: fixed; inset: 0; pointer-events: none; z-index: 0;
-  background-image:
-    linear-gradient(rgba(30,80,140,0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(30,80,140,0.05) 1px, transparent 1px);
-  background-size: 8px 8px;
+.refraction-bg svg {
+  position: absolute; width: 100%; height: 100%;
 }
 
-/* refraction light effects */
-.refractions {
+/* Fine subgrid */
+.grid-overlay {
   position: fixed; inset: 0; z-index: 0; pointer-events: none;
-  overflow: hidden;
-}
-.ref-beam {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.18;
-}
-.ref-1 {
-  width: 400px; height: 200px;
-  background: linear-gradient(135deg, #ff6b6b, #ffd93d);
-  top: -60px; left: -80px;
-  transform: rotate(-20deg);
-}
-.ref-2 {
-  width: 300px; height: 150px;
-  background: linear-gradient(135deg, #6bcbff, #a78bfa);
-  top: 20%; right: -60px;
-  transform: rotate(15deg);
-}
-.ref-3 {
-  width: 350px; height: 120px;
-  background: linear-gradient(135deg, #6bffb8, #ffd93d);
-  bottom: 15%; left: 10%;
-  transform: rotate(-10deg);
-}
-.ref-4 {
-  width: 200px; height: 200px;
-  background: radial-gradient(circle, rgba(255,255,255,0.6), transparent);
-  top: 35%; left: 40%;
+  background-image:
+    linear-gradient(var(--rule-soft) 1px, transparent 1px),
+    linear-gradient(90deg, var(--rule-soft) 1px, transparent 1px);
+  background-size: 48px 48px;
 }
 
-.panel {
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  height: 54px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 3rem;
+  background: rgba(13,17,23,0.96);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--rule);
+}
+.nav-logo {
+  font-family: var(--mono);
+  font-size: 0.72rem; font-weight: 400;
+  letter-spacing: 0.28em; text-transform: uppercase;
+  color: var(--text-primary);
+}
+.nav-links { display: flex; gap: 2.8rem; list-style: none; }
+.nav-links a {
+  font-size: 0.65rem; font-weight: 300;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  text-decoration: none; color: var(--text-tertiary);
+  transition: color 0.25s;
+}
+.nav-links a:hover { color: var(--text-primary); }
+.nav-ref { font-size: 0.6rem; letter-spacing: 0.1em; color: var(--text-dim); }
+
+/* ── HERO ── */
+.hero {
   position: relative; z-index: 1;
-  width: 100%; max-width: 640px;
+  min-height: 100vh; padding-top: 54px;
+  display: grid; grid-template-columns: 1.1fr 0.9fr;
 }
+.hero-left {
+  padding: 100px 3.5rem 80px 3rem;
+  border-right: 1px solid var(--rule);
+  display: flex; flex-direction: column; justify-content: center;
+  position: relative;
+}
+.hero-ref {
+  font-size: 0.58rem; letter-spacing: 0.2em;
+  color: var(--text-dim); margin-bottom: 3rem; text-transform: uppercase;
+}
+.hero-eyebrow {
+  font-size: 0.62rem; font-weight: 400; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--text-tertiary);
+  margin-bottom: 1.8rem;
+  display: flex; align-items: center; gap: 1rem;
+  opacity: 0; animation: rise 0.9s 0.2s forwards;
+}
+.hero-eyebrow::before {
+  content: ''; display: block; width: 18px; height: 1px;
+  background: var(--text-tertiary);
+}
+.hero h1 {
+  font-family: var(--serif); font-weight: 300;
+  font-size: clamp(2.2rem, 3.8vw, 3.4rem);
+  line-height: 1.18; color: var(--text-primary);
+  letter-spacing: -0.01em; margin-bottom: 2rem;
+  opacity: 0; animation: rise 0.9s 0.35s forwards;
+}
+.hero h1 em { font-style: italic; color: var(--text-secondary); }
+.hero-sub {
+  font-size: 0.78rem; font-weight: 300;
+  color: var(--text-secondary); max-width: 430px;
+  line-height: 2.1; margin-bottom: 3rem;
+  opacity: 0; animation: rise 0.9s 0.5s forwards;
+}
+.hero-actions {
+  display: flex; gap: 1rem; flex-wrap: wrap;
+  opacity: 0; animation: rise 0.9s 0.65s forwards;
+}
+.btn {
+  display: inline-block; font-family: var(--mono);
+  font-size: 0.63rem; font-weight: 400;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  text-decoration: none; padding: 0.75rem 1.8rem;
+  transition: all 0.22s; cursor: pointer;
+}
+.btn-primary {
+  background: var(--text-primary); color: var(--bg);
+  border: 1px solid var(--text-primary);
+}
+.btn-primary:hover { background: transparent; color: var(--text-primary); }
+.btn-outline {
+  background: transparent; color: var(--text-secondary);
+  border: 1px solid var(--rule);
+}
+.btn-outline:hover { border-color: var(--text-tertiary); color: var(--text-primary); }
 
-/* ── HEADER ── */
-.kh { margin-bottom: 2.5rem; }
-.kh-wordmark {
-  font-family: 'Bodoni Moda', serif;
-  font-size: clamp(2.2rem, 6vw, 3rem);
-  font-weight: 400;
-  letter-spacing: 0.2em;
-  color: #0a1a2a;
-  line-height: 1;
-  margin-bottom: 0.6rem;
+/* hero right */
+.hero-right {
+  position: relative; display: flex;
+  align-items: center; justify-content: center;
+  padding: 80px 3rem;
+  opacity: 0; animation: rise 1s 0.5s forwards;
 }
-.kh-rule {
-  width: 100%; height: 1px; margin: 0.6rem 0;
-  background: linear-gradient(90deg,
-    #B87333 0%, #C8894A 35%,
-    rgba(184,115,51,0.3) 60%,
+.diagram-wrap { width: 100%; max-width: 400px; }
+.diagram-wrap svg { width: 100%; height: auto; display: block; }
+
+/* ── DIVIDERS ── */
+.rule { position: relative; z-index: 1; height: 1px; background: var(--rule); }
+.rule-spectrum {
+  position: relative; z-index: 1; height: 1px;
+  background: linear-gradient(
+    90deg, transparent 0%,
+    rgba(220,80,60,0.22) 15%,
+    rgba(200,185,80,0.18) 45%,
+    rgba(80,180,120,0.22) 75%,
     transparent 100%
   );
 }
-.kh-sub {
-  font-family: 'Bodoni Moda', serif;
-  font-size: 0.75rem; font-weight: 300;
-  letter-spacing: 0.22em; color: #0a2a4a;
-  text-transform: uppercase;
+
+/* ── SECTIONS ── */
+.section { position: relative; z-index: 1; padding: 88px 3rem; }
+.section-inner { max-width: 1120px; margin: 0 auto; }
+.s-eyebrow {
+  font-size: 0.6rem; font-weight: 400; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--text-tertiary);
+  margin-bottom: 1.4rem;
+  display: flex; align-items: center; gap: 0.8rem;
 }
-.kh-section {
-  font-size: 0.65rem; letter-spacing: 0.18em;
-  color: #8B5520; text-transform: uppercase;
-  margin-top: 0.5rem;
+.s-eyebrow::before {
+  content: ''; display: block; width: 12px; height: 1px;
+  background: currentColor;
+}
+.s-title {
+  font-family: var(--serif); font-weight: 300;
+  font-size: clamp(1.7rem, 2.8vw, 2.3rem);
+  line-height: 1.2; color: var(--text-primary);
+  margin-bottom: 0.9rem; letter-spacing: -0.01em;
+}
+.s-body {
+  font-size: 0.76rem; font-weight: 300;
+  color: var(--text-secondary); max-width: 560px;
+  line-height: 2.1; margin-bottom: 3rem;
 }
 
-/* ── SECTION LABEL ── */
-.s-label {
-  font-size: 0.62rem; letter-spacing: 0.2em;
-  text-transform: uppercase; color: #0a2a4a;
-  margin: 2.2rem 0 1rem;
-  padding-bottom: 0.6rem;
-  border-bottom: 1px solid rgba(10,40,80,0.25);
+/* ── STREAMS ── */
+.streams { background: var(--bg-panel); }
+.streams-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1px; background: var(--rule); border: 1px solid var(--rule);
+}
+.stream {
+  background: var(--bg-panel); padding: 2.8rem;
+  position: relative; transition: background 0.2s;
+}
+.stream:hover { background: var(--bg-mid); }
+.stream-bar { height: 1px; margin-bottom: 2.2rem; }
+.stream.one .stream-bar { background: linear-gradient(90deg, rgba(220,80,60,0.45), rgba(210,130,60,0.25)); }
+.stream.two .stream-bar { background: linear-gradient(90deg, rgba(80,140,210,0.25), rgba(80,180,120,0.45)); }
+.stream-id {
+  font-size: 0.58rem; font-weight: 400; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--text-dim); margin-bottom: 1.3rem;
+}
+.stream h3 {
+  font-family: var(--serif); font-weight: 300; font-size: 1.3rem;
+  color: var(--text-primary); margin-bottom: 1rem; line-height: 1.35;
+}
+.stream p {
+  font-size: 0.74rem; font-weight: 300;
+  color: var(--text-secondary); line-height: 2.1; margin-bottom: 1.8rem;
+}
+.stream-tags { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+.stag {
+  font-size: 0.58rem; font-weight: 300; letter-spacing: 0.1em;
+  text-transform: uppercase; border: 1px solid var(--rule);
+  padding: 0.28rem 0.7rem; color: var(--text-tertiary); transition: all 0.15s;
+}
+.stream:hover .stag { border-color: rgba(255,255,255,0.1); color: var(--text-secondary); }
+
+/* ── CYCLE ── */
+.cycle { background: var(--bg); }
+.cycle-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 1px; background: var(--rule); border: 1px solid var(--rule);
+}
+.cycle-step {
+  background: var(--bg); padding: 2.2rem 1.8rem;
+  position: relative; overflow: hidden; transition: background 0.2s;
+}
+.cycle-step:hover { background: var(--bg-panel); }
+.step-bar { height: 1px; margin-bottom: 1.8rem; }
+.cycle-step:nth-child(1) .step-bar { background: rgba(220,80,60,0.4); }
+.cycle-step:nth-child(2) .step-bar { background: rgba(210,150,70,0.35); }
+.cycle-step:nth-child(3) .step-bar { background: rgba(140,190,90,0.35); }
+.cycle-step:nth-child(4) .step-bar { background: rgba(80,180,120,0.4); }
+.cycle-step::after {
+  content: attr(data-n);
+  position: absolute; bottom: 1.2rem; right: 1.4rem;
+  font-family: var(--serif); font-size: 5rem; font-weight: 300;
+  color: rgba(255,255,255,0.025); line-height: 1; pointer-events: none;
+}
+.step-id {
+  font-size: 0.58rem; font-weight: 400; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--text-dim); margin-bottom: 1.2rem;
+}
+.cycle-step h4 {
+  font-family: var(--serif); font-size: 1.1rem; font-weight: 300;
+  color: var(--text-primary); margin-bottom: 0.7rem; line-height: 1.35;
+}
+.cycle-step p {
+  font-size: 0.71rem; font-weight: 300;
+  color: var(--text-secondary); line-height: 2;
 }
 
-/* ── SINGLE SESSIONS ── */
-.single-row {
-  background: rgba(255,255,255,0.72);
-  border: 1px solid rgba(30,80,140,0.15);
-  border-radius: 4px;
-  padding: 1rem 1.2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 6px;
-  backdrop-filter: blur(4px);
+/* ── PHILOSOPHY ── */
+.philosophy {
+  background: var(--bg-panel);
+  border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
 }
-.single-row.copper { border-left: 2px solid #B87333; }
-.single-left { display: flex; flex-direction: column; gap: 4px; }
-.single-name {
-  font-family: 'Bodoni Moda', serif;
-  font-size: 1rem; font-weight: 400;
-  color: #0a1a2a; letter-spacing: 0.06em;
+.philosophy-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 6rem; align-items: start; max-width: 1120px; margin: 0 auto;
 }
-.single-meta {
-  font-size: 0.64rem; color: #1a3a5a; letter-spacing: 0.06em;
-  line-height: 1.6;
+.phil-quote {
+  font-family: var(--serif); font-weight: 300; font-style: italic;
+  font-size: clamp(1.3rem, 2.2vw, 1.8rem);
+  color: var(--text-primary); line-height: 1.55;
+  padding-left: 1.8rem; border-left: 1px solid var(--rule); position: relative;
 }
-.single-price {
-  font-family: 'Bodoni Moda', serif;
-  font-size: 1.5rem; font-weight: 400; color: #0a1a2a;
-  flex-shrink: 0; margin-left: 1rem;
+.phil-quote::before {
+  content: ''; position: absolute; left: -1px; top: 0; bottom: 0; width: 1px;
+  background: linear-gradient(to bottom, rgba(220,80,60,0.35), rgba(80,180,120,0.28));
 }
-
-/* ── CYCLE TABLE ── */
-.cycle-note {
-  font-size: 0.64rem; color: #1a3a5a;
-  letter-spacing: 0.04em; line-height: 2;
-  margin-bottom: 1.2rem;
+.how-title {
+  font-size: 0.6rem; font-weight: 400; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--text-tertiary);
+  margin-bottom: 1.5rem;
+  display: flex; align-items: center; gap: 0.8rem;
 }
-
-.cycle-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-
-table.cycle {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0 5px;
+.how-title::before {
+  content: ''; display: block; width: 12px; height: 1px; background: currentColor;
 }
-table.cycle thead th {
-  font-size: 0.62rem; letter-spacing: 0.16em;
-  text-transform: uppercase; color: #4a6a8a;
-  font-weight: 400; padding: 0 1rem 0.6rem;
-  text-align: right; white-space: nowrap;
+.how-list { list-style: none; }
+.how-list li {
+  font-size: 0.74rem; font-weight: 300; color: var(--text-secondary);
+  line-height: 2; padding: 0.75rem 0; border-bottom: 1px solid var(--rule);
+  display: flex; align-items: baseline; gap: 1rem;
 }
-table.cycle thead th:first-child {
-  text-align: left; padding-left: 1rem;
-}
-table.cycle thead th.col-90 { color: #B87333; }
-
-table.cycle tbody tr td {
-  background: rgba(255,255,255,0.7);
-  border-top: 1px solid rgba(30,80,140,0.1);
-  border-bottom: 1px solid rgba(30,80,140,0.1);
-  padding: 0.8rem 1rem;
-  vertical-align: middle;
-  text-align: right;
-  backdrop-filter: blur(4px);
-}
-table.cycle tbody tr td:first-child {
-  border-left: 1px solid rgba(30,80,140,0.1);
-  border-radius: 4px 0 0 4px;
-  text-align: left;
-}
-table.cycle tbody tr td:last-child {
-  border-right: 1px solid rgba(30,80,140,0.1);
-  border-radius: 0 4px 4px 0;
+.how-list li::before {
+  content: '—'; color: var(--text-dim); flex-shrink: 0; font-size: 0.65rem;
 }
 
-.r-participants {
-  font-size: 0.8rem; color: #0a2a4a; letter-spacing: 0.06em;
+/* ── FOUNDATIONS ── */
+.foundations { background: var(--bg); }
+.found-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 1px; background: var(--rule); border: 1px solid var(--rule);
 }
-.r-price {
-  font-family: 'Bodoni Moda', serif;
-  font-size: 1.2rem; font-weight: 400; color: #0a1a2a;
+.found-item {
+  background: var(--bg); padding: 1.1rem 1.3rem;
+  font-size: 0.65rem; font-weight: 300; letter-spacing: 0.05em;
+  color: var(--text-tertiary); transition: all 0.18s; position: relative;
 }
-.r-price.dim { color: #6a8aaa; }
+.found-item::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, rgba(220,80,60,0.35), rgba(80,180,120,0.35));
+  transform: scaleX(0); transform-origin: left; transition: transform 0.3s;
+}
+.found-item:hover { background: var(--bg-panel); color: var(--text-primary); }
+.found-item:hover::after { transform: scaleX(1); }
 
-.savings-hint {
-  display: flex; justify-content: flex-end;
-  gap: 2rem; margin-top: 0.6rem;
-  font-size: 0.54rem; color: #8aaac0;
-  letter-spacing: 0.1em;
+/* ── ABOUT ── */
+.about { background: var(--bg-panel); }
+.about-grid {
+  display: grid; grid-template-columns: 260px 1fr;
+  gap: 1px; background: var(--rule); border: 1px solid var(--rule);
+}
+.about-id { background: var(--bg-panel); padding: 2.5rem; }
+.about-name {
+  font-family: var(--serif); font-weight: 300; font-size: 1.65rem;
+  color: var(--text-primary); margin-bottom: 0.3rem; line-height: 1.2;
+}
+.about-role {
+  font-size: 0.58rem; font-weight: 400; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--text-tertiary);
+  margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid var(--rule);
+  white-space: nowrap;
+}
+.about-meta { list-style: none; }
+.about-meta li {
+  font-size: 0.65rem; font-weight: 300; color: var(--text-dim);
+  padding: 0.55rem 0; border-bottom: 1px solid var(--rule);
+  display: flex; gap: 0.5rem; flex-direction: column;
+}
+.meta-label { font-size: 0.55rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-dim); }
+.about-meta li span { color: var(--text-secondary); }
+.about-meta li a { color: var(--text-secondary); text-decoration: none; transition: color 0.2s; }
+.about-meta li a:hover { color: var(--text-primary); }
+.about-text { background: var(--bg-mid); padding: 2.5rem; }
+.about-text p {
+  font-size: 0.76rem; font-weight: 300;
+  color: var(--text-secondary); line-height: 2.15; margin-bottom: 1.3rem;
+}
+.about-text p:first-child {
+  font-family: var(--serif); font-size: 1.1rem; font-weight: 300;
+  color: var(--text-primary); line-height: 1.75;
 }
 
-/* ── ORG LAB ── */
-.org-row {
-  background: rgba(255,255,255,0.6);
-  border: 1px solid rgba(30,80,140,0.12);
-  border-radius: 4px;
-  padding: 1rem 1.2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  backdrop-filter: blur(4px);
+/* ── CONNECT ── */
+.connect {
+  position: relative; z-index: 1; background: var(--bg);
+  padding: 110px 3rem; text-align: center;
+  overflow: hidden; border-top: 1px solid var(--rule);
 }
-.org-inquiry {
-  font-size: 0.7rem; color: #B87333;
-  letter-spacing: 0.1em; text-transform: uppercase;
-  flex-shrink: 0; margin-left: 1rem;
+.connect-inner { position: relative; z-index: 2; max-width: 520px; margin: 0 auto; }
+.connect h2 {
+  font-family: var(--serif); font-weight: 300; font-size: 2.2rem;
+  color: var(--text-primary); margin-bottom: 1rem;
 }
-
-/* ── POLICY ── */
-.policy {
-  margin-top: 2rem;
-  padding: 1.1rem 1.2rem;
-  background: rgba(255,255,255,0.55);
-  border: 1px solid rgba(30,80,140,0.12);
-  border-left: 2px solid #B87333;
-  border-radius: 4px;
-  backdrop-filter: blur(4px);
+.connect p {
+  font-size: 0.74rem; font-weight: 300;
+  color: var(--text-secondary); line-height: 2.1; margin-bottom: 2.5rem;
 }
-.policy p {
-  font-size: 0.64rem; color: #0a2a4a;
-  letter-spacing: 0.04em; line-height: 1.9;
-}
-.policy p + p { margin-top: 0.5rem; }
+.connect-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
 
 /* ── FOOTER ── */
-.kf {
-  text-align: center;
-  margin-top: 2.5rem;
-  padding-top: 1.4rem;
-  border-top: 1px solid rgba(184,115,51,0.25);
+footer {
+  position: relative; z-index: 1; background: var(--bg);
+  border-top: 1px solid var(--rule); padding: 1.6rem 3rem;
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 0.58rem; font-weight: 300; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--text-dim);
 }
-.kf-wordmark {
-  font-family: 'Bodoni Moda', serif;
-  font-size: 1rem; font-weight: 300;
-  letter-spacing: 0.22em; color: #0a2a4a;
+.footer-bar {
+  width: 60px; height: 1px;
+  background: linear-gradient(90deg, rgba(220,80,60,0.28), rgba(80,180,120,0.28));
 }
-.kf-contact {
-  font-size: 0.62rem; color: #1a3a5a;
-  letter-spacing: 0.08em; margin-top: 0.5rem;
-}
-.kf-contact a { color: #B87333; text-decoration: none; }
 
-.back {
-  display: inline-flex; align-items: center; gap: 0.4rem;
-  font-size: 0.62rem; letter-spacing: 0.12em;
-  color: #0a2a4a; text-decoration: none;
-  text-transform: uppercase; margin-bottom: 2rem;
-  transition: color 0.2s;
+/* ── ANIMATIONS ── */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
-.back:hover { color: #8B5520; }
 
-@media (max-width: 480px) {
-  body { padding: 2rem 0.75rem 4rem; }
-  .single-price { font-size: 1.2rem; }
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; }
+  .hero-right { display: none; }
+  .streams-grid { grid-template-columns: 1fr; }
+  .cycle-grid { grid-template-columns: 1fr 1fr; }
+  .philosophy-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .found-grid { grid-template-columns: repeat(2, 1fr); }
+  .about-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  nav { padding: 0 1.5rem; }
+  .nav-links { display: none; }
+  .hero-left { padding: 80px 1.5rem 60px; }
+  .section { padding: 64px 1.5rem; }
+  .cycle-grid { grid-template-columns: 1fr; }
+  .found-grid { grid-template-columns: repeat(2, 1fr); }
+  footer { flex-direction: column; gap: 0.8rem; text-align: center; }
 }
 </style>
-</head>
-<body>
 
-<!-- refraction beams -->
-<div class="refractions">
-  <div class="ref-beam ref-1"></div>
-  <div class="ref-beam ref-2"></div>
-  <div class="ref-beam ref-3"></div>
-  <div class="ref-beam ref-4"></div>
+
+<!-- AMBIENT DIAMOND REFRACTION -->
+<div class="refraction-bg">
+<svg preserveaspectratio="xMidYMid slice" viewbox="0 0 1440 900" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<lineargradient id="ref1" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="transparent"></stop>
+<stop offset="40%" stop-color="rgba(220,80,60,0.1)"></stop>
+<stop offset="60%" stop-color="rgba(220,80,60,0.07)"></stop>
+<stop offset="100%" stop-color="transparent"></stop>
+</lineargradient>
+<lineargradient id="ref2" x1="100%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="transparent"></stop>
+<stop offset="40%" stop-color="rgba(80,180,120,0.08)"></stop>
+<stop offset="60%" stop-color="rgba(80,180,120,0.05)"></stop>
+<stop offset="100%" stop-color="transparent"></stop>
+</lineargradient>
+<lineargradient id="ref3" x1="0%" x2="100%" y1="100%" y2="0%">
+<stop offset="0%" stop-color="transparent"></stop>
+<stop offset="50%" stop-color="rgba(80,140,210,0.06)"></stop>
+<stop offset="100%" stop-color="transparent"></stop>
+</lineargradient>
+<lineargradient id="ref4" x1="30%" x2="70%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="transparent"></stop>
+<stop offset="50%" stop-color="rgba(200,185,80,0.05)"></stop>
+<stop offset="100%" stop-color="transparent"></stop>
+</lineargradient>
+</defs>
+<!-- broad soft diagonal refractions — like internal diamond faces -->
+<line opacity="1" stroke="url(#ref1)" stroke-width="200" x1="-100" x2="900" y1="200" y2="1100"></line>
+<line opacity="1" stroke="url(#ref2)" stroke-width="160" x1="1540" x2="400" y1="100" y2="900"></line>
+<line opacity="1" stroke="url(#ref3)" stroke-width="120" x1="0" x2="1440" y1="600" y2="300"></line>
+<line opacity="1" stroke="url(#ref4)" stroke-width="80" x1="800" x2="600" y1="-50" y2="950"></line>
+<!-- hairline structural traces -->
+<line stroke="rgba(255,255,255,0.015)" stroke-width="1" x1="200" x2="1100" y1="0" y2="900"></line>
+<line stroke="rgba(255,255,255,0.011)" stroke-width="1" x1="600" x2="1440" y1="0" y2="600"></line>
+<line stroke="rgba(255,255,255,0.01)" stroke-width="1" x1="0" x2="800" y1="300" y2="900"></line>
+<line stroke="rgba(255,255,255,0.013)" stroke-width="1" x1="1200" x2="400" y1="0" y2="900"></line>
+<line stroke="rgba(255,255,255,0.009)" stroke-width="1" x1="900" x2="100" y1="0" y2="900"></line>
+</svg>
 </div>
-
-<div class="panel">
-
-  <a class="back" href="/">← kiprisma.com</a>
-
-  <!-- HEADER -->
-  <div class="kh">
-    <div class="kh-wordmark">KIPRISMA</div>
-    <div class="kh-rule"></div>
-    <div class="kh-sub">Connective Communication</div>
-    <div class="kh-section">Lang.Lab · Service Rates</div>
-  </div>
-
-  <!-- SINGLE SESSIONS -->
-  <div class="s-label">Single Sessions</div>
-
-  <div class="single-row copper">
-    <div class="single-left">
-      <span class="single-name">Initial Analysis</span>
-      <span class="single-meta">45 min · goal assessment · path recommendation · all new clients</span>
-    </div>
-    <span class="single-price">$55</span>
-  </div>
-
-  <div class="single-row">
-    <div class="single-left">
-      <span class="single-name">Exam Prep · Special Studies</span>
-      <span class="single-meta">60 min · 1 person · TOEFL · IELTS · NCLEX · focused session</span>
-    </div>
-    <span class="single-price">$70</span>
-  </div>
-
-  <div class="single-row">
-    <div class="single-left">
-      <span class="single-name">Exam Prep · Special Studies</span>
-      <span class="single-meta">60 min · 2 people max · shared focused session</span>
-    </div>
-    <span class="single-price">$90</span>
-  </div>
-
-  <!-- CYCLE SESSIONS -->
-  <div class="s-label">4-Week Cycles · Prepaid · Price Per Person</div>
-
-  <p class="cycle-note">
-    4 sessions over 4 weeks · paid in full upon booking · weekly frequency standard<br>
-    Lower proficiency levels may require 2–3× weekly<br>
-    Gap &gt;2 weeks between cycles requires a calibration session · $55
-  </p>
-
-  <div class="cycle-table-wrap">
-    <table class="cycle">
-      <thead>
-        <tr>
-          <th>Participants</th>
-          <th class="col-90">90 min ↓</th>
-          <th>60 min ↓</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><span class="r-participants">1 person</span></td>
-          <td><span class="r-price">$300</span></td>
-          <td><span class="r-price">$200</span></td>
-        </tr>
-        <tr>
-          <td><span class="r-participants">2 people</span></td>
-          <td><span class="r-price">$200</span></td>
-          <td><span class="r-price">$150</span></td>
-        </tr>
-        <tr>
-          <td><span class="r-participants">3 people</span></td>
-          <td><span class="r-price">$150</span></td>
-          <td><span class="r-price">$125</span></td>
-        </tr>
-        <tr>
-          <td><span class="r-participants">4+ people</span></td>
-          <td><span class="r-price">$125</span></td>
-          <td><span class="r-price dim">$100</span></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="savings-hint">
-    <span>← higher investment</span>
-    <span>more accessible →</span>
-  </div>
-
-  <!-- ORG LAB -->
-  <div class="s-label">Org.Lab · In-Company Programs</div>
-  <div class="org-row">
-    <div class="single-left">
-      <span class="single-name">Organizational Language Programs</span>
-      <span class="single-meta">Scope, format and investment determined through initial consultation</span>
-    </div>
-    <span class="org-inquiry">Upon inquiry</span>
-  </div>
-
-  <!-- POLICY -->
-  <div class="policy">
-    <p>Rates are fixed. All sessions booked through kiprisma.com. Cycles prepaid in full upon scheduling. No negotiation.</p>
-    <p>Christopher Michael is an independent educator and consultant. Services are educational and complementary in nature. Advisory services are non-transactional in scope.</p>
-  </div>
-
-  <!-- FOOTER -->
-  <div class="kf">
-    <div class="kf-wordmark">KIPRISMA</div>
-    <div class="kf-contact">
-      <a href="mailto:contact@kiprisma.com">contact@kiprisma.com</a>
-      &nbsp;·&nbsp; kiprisma.com
-      &nbsp;·&nbsp; BOS &gt; NYC · Online
-    </div>
-  </div>
-
+<div class="grid-overlay"></div>
+<!-- NAV -->
+<nav>
+<div class="nav-logo">Kiprisma</div>
+<ul class="nav-links">
+<li><a href="#streams">Practice</a></li>
+<li><a href="#cycle">Method</a></li>
+<li><a href="#about">About</a></li>
+<li><a href="#connect">Connect</a></li>
+</ul>
+<span class="nav-ref">KPR · 2025</span>
+</nav>
+<!-- HERO -->
+<div class="hero">
+<div class="hero-left">
+<p class="hero-ref">KPR–001 · The Prism Method™</p>
+<p class="hero-eyebrow">Kiprisma Advisory</p>
+<h1>Integrative learning through <em>communication,</em> body, and practice.</h1>
+<p class="hero-sub">Preparation for exams, credentials, and professional life — grounded in how people actually learn.</p>
+<div class="hero-actions">
+<a class="btn btn-primary" href="#connect">Book a Session</a>
+<a class="btn btn-outline" href="#streams">Explore the Work</a>
 </div>
-</body>
-</html>
+</div>
+<div class="hero-right">
+<div class="diagram-wrap">
+<svg fill="none" viewbox="0 0 400 460" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<lineargradient id="rayR" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="rgba(220,80,60,0)"></stop>
+<stop offset="100%" stop-color="rgba(220,80,60,0.5)"></stop>
+</lineargradient>
+<lineargradient id="rayO" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="rgba(210,130,60,0)"></stop>
+<stop offset="100%" stop-color="rgba(210,130,60,0.42)"></stop>
+</lineargradient>
+<lineargradient id="rayY" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="rgba(200,185,80,0)"></stop>
+<stop offset="100%" stop-color="rgba(200,185,80,0.38)"></stop>
+</lineargradient>
+<lineargradient id="rayW" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="rgba(230,235,245,0)"></stop>
+<stop offset="100%" stop-color="rgba(230,235,245,0.18)"></stop>
+</lineargradient>
+<lineargradient id="rayG" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="rgba(140,190,90,0)"></stop>
+<stop offset="100%" stop-color="rgba(140,190,90,0.38)"></stop>
+</lineargradient>
+<lineargradient id="rayB" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="rgba(80,140,210,0)"></stop>
+<stop offset="100%" stop-color="rgba(80,140,210,0.42)"></stop>
+</lineargradient>
+<lineargradient id="rayV" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="rgba(80,180,120,0)"></stop>
+<stop offset="100%" stop-color="rgba(80,180,120,0.48)"></stop>
+</lineargradient>
+<lineargradient id="specBase" x1="0%" x2="100%" y1="0%" y2="0%">
+<stop offset="0%" stop-color="rgba(220,80,60,0.55)"></stop>
+<stop offset="30%" stop-color="rgba(200,185,80,0.45)"></stop>
+<stop offset="65%" stop-color="rgba(140,190,90,0.45)"></stop>
+<stop offset="100%" stop-color="rgba(80,180,120,0.55)"></stop>
+</lineargradient>
+</defs>
+<!-- annotation grid -->
+<line stroke="rgba(255,255,255,0.035)" stroke-width="0.5" x1="0" x2="400" y1="90" y2="90"></line>
+<line stroke="rgba(255,255,255,0.035)" stroke-width="0.5" x1="0" x2="400" y1="395" y2="395"></line>
+<line stroke="rgba(255,255,255,0.025)" stroke-width="0.5" x1="30" x2="30" y1="0" y2="460"></line>
+<line stroke="rgba(255,255,255,0.025)" stroke-width="0.5" x1="200" x2="200" y1="0" y2="460"></line>
+<line stroke="rgba(255,255,255,0.025)" stroke-width="0.5" x1="370" x2="370" y1="0" y2="460"></line>
+<!-- dimension ticks -->
+<line stroke="rgba(255,255,255,0.12)" stroke-width="0.6" x1="50" x2="50" y1="83" y2="97"></line>
+<line stroke="rgba(255,255,255,0.12)" stroke-width="0.6" x1="350" x2="350" y1="83" y2="97"></line>
+<line stroke="rgba(255,255,255,0.05)" stroke-width="0.5" x1="50" x2="350" y1="90" y2="90"></line>
+<text fill="rgba(255,255,255,0.2)" font-family="IBM Plex Mono" font-size="7.5" letter-spacing="2" text-anchor="middle" x="200" y="86">INPUT</text>
+<!-- prism triangle -->
+<polygon fill="rgba(240,242,248,0.01)" points="200,106 358,390 42,390" stroke="rgba(240,242,248,0.18)" stroke-width="0.8"></polygon>
+<!-- apex marker -->
+<line stroke="rgba(255,255,255,0.3)" stroke-width="0.6" x1="192" x2="208" y1="106" y2="106"></line>
+<line stroke="rgba(255,255,255,0.3)" stroke-width="0.6" x1="200" x2="200" y1="98" y2="114"></line>
+<circle cx="200" cy="106" fill="rgba(255,255,255,0.55)" r="1.8"></circle>
+<!-- refracted rays -->
+<line stroke="url(#rayR)" stroke-width="0.8" x1="200" x2="42" y1="106" y2="390"></line>
+<line stroke="url(#rayO)" stroke-width="0.8" x1="200" x2="88" y1="106" y2="390"></line>
+<line stroke="url(#rayY)" stroke-width="0.8" x1="200" x2="134" y1="106" y2="390"></line>
+<line stroke="url(#rayW)" stroke-width="0.8" x1="200" x2="180" y1="106" y2="390"></line>
+<line stroke="url(#rayW)" stroke-width="0.8" x1="200" x2="226" y1="106" y2="390"></line>
+<line stroke="url(#rayG)" stroke-width="0.8" x1="200" x2="270" y1="106" y2="390"></line>
+<line stroke="url(#rayB)" stroke-width="0.8" x1="200" x2="314" y1="106" y2="390"></line>
+<line stroke="url(#rayV)" stroke-width="0.8" x1="200" x2="358" y1="106" y2="390"></line>
+<!-- base spectrum -->
+<line stroke="url(#specBase)" stroke-width="1.2" x1="42" x2="358" y1="390" y2="390"></line>
+<!-- base ticks -->
+<line stroke="rgba(220,80,60,0.4)" stroke-width="0.7" x1="42" x2="42" y1="385" y2="398"></line>
+<line stroke="rgba(200,185,80,0.32)" stroke-width="0.7" x1="200" x2="200" y1="387" y2="397"></line>
+<line stroke="rgba(80,180,120,0.4)" stroke-width="0.7" x1="358" x2="358" y1="385" y2="398"></line>
+<!-- base labels -->
+<text fill="rgba(220,80,60,0.6)" font-family="IBM Plex Mono" font-size="7" letter-spacing="1.5" text-anchor="middle" x="42" y="416">BODY</text>
+<text fill="rgba(200,185,80,0.55)" font-family="IBM Plex Mono" font-size="7" letter-spacing="1.5" text-anchor="middle" x="200" y="416">LANGUAGE</text>
+<text fill="rgba(80,180,120,0.6)" font-family="IBM Plex Mono" font-size="7" letter-spacing="1.5" text-anchor="middle" x="358" y="416">PRACTICE</text>
+<!-- side callouts -->
+<line stroke="rgba(255,255,255,0.08)" stroke-width="0.5" x1="358" x2="382" y1="248" y2="248"></line>
+<text fill="rgba(255,255,255,0.18)" font-family="IBM Plex Mono" font-size="6.5" letter-spacing="1" x="385" y="252">INTEGRATION</text>
+<line stroke="rgba(255,255,255,0.08)" stroke-width="0.5" x1="42" x2="18" y1="248" y2="248"></line>
+<text fill="rgba(255,255,255,0.18)" font-family="IBM Plex Mono" font-size="6.5" letter-spacing="1" text-anchor="end" x="16" y="252">COMM.</text>
+<text fill="rgba(255,255,255,0.16)" font-family="IBM Plex Mono" font-size="6.5" letter-spacing="1" x="208" y="102">KPR–Δ</text>
+</svg>
+</div>
+</div>
+</div>
+<div class="rule-spectrum"></div>
+<!-- STREAMS -->
+<section class="section streams" id="streams">
+<div class="section-inner">
+<p class="s-eyebrow">Areas of Practice</p>
+<h2 class="s-title">Two streams. One method.</h2>
+<p class="s-body">Whether you are preparing for a specific goal or exploring something deeper — the process is the same. Clear observation, honest reflection, deliberate practice.</p>
+<div class="streams-grid">
+<div class="stream one">
+<div class="stream-bar"></div>
+<p class="stream-id">Stream 01 — Exam &amp; Professional Prep</p>
+<h3>Language, credentials, and career readiness.</h3>
+<p>For adult learners navigating English proficiency exams, professional licensing, college admissions, or a career shift. Sessions are structured, goal-oriented, and built around your specific exam or transition — with communication and confidence at the center.</p>
+<div class="stream-tags">
+<span class="stag">TOEFL / IELTS</span>
+<span class="stag">NCLEX</span>
+<span class="stag">LSAT</span>
+<span class="stag">College Admissions</span>
+<span class="stag">ESL Adults</span>
+<span class="stag">Career Shift</span>
+<span class="stag">Entrepreneurship</span>
+<span class="stag">Leadership</span>
+</div>
+</div>
+<div class="stream two">
+<div class="stream-bar"></div>
+<p class="stream-id">Stream 02 — Whole-Person Practice</p>
+<h3>Body, energy, movement, and expression.</h3>
+<p>For individuals ready to work at a deeper level — through somatic awareness, reiki, expressive arts, or movement exploration. One-on-one sessions supporting nervous system regulation, emotional processing, and authentic presence.</p>
+<div class="stream-tags">
+<span class="stag">Somatic Sessions</span>
+<span class="stag">Reiki</span>
+<span class="stag">Movement</span>
+<span class="stag">Expressive Arts</span>
+<span class="stag">Psychology-Informed</span>
+<span class="stag">1-on-1</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<div class="rule"></div>
+<!-- CYCLE -->
+<section class="section cycle" id="cycle">
+<div class="section-inner">
+<p class="s-eyebrow">The Method</p>
+<h2 class="s-title">A cycle, not a curriculum.</h2>
+<p class="s-body">The Prism Method™ is a process framework. You return to each phase differently every time — because you are different every time.</p>
+<div class="cycle-grid">
+<div class="cycle-step" data-n="01">
+<div class="step-bar"></div>
+<p class="step-id">01 — Observe</p>
+<h4>Notice what is present.</h4>
+<p>In the body, in language, in patterns of communication. Without judgment — just clear seeing.</p>
+</div>
+<div class="cycle-step" data-n="02">
+<div class="step-bar"></div>
+<p class="step-id">02 — Reflect</p>
+<h4>Make meaning together.</h4>
+<p>Through honest dialogue and structured inquiry. Understanding before strategy.</p>
+</div>
+<div class="cycle-step" data-n="03">
+<div class="step-bar"></div>
+<p class="step-id">03 — Practice</p>
+<h4>Experiment in real conditions.</h4>
+<p>Role-play, scenario work, movement, creative expression. Learning that lives in the body, not just the mind.</p>
+</div>
+<div class="cycle-step" data-n="04">
+<div class="step-bar"></div>
+<p class="step-id">04 — Integrate</p>
+<h4>Carry it forward.</h4>
+<p>Into exams, workplaces, daily life and relationship. Sustainable change, not performance.</p>
+</div>
+</div>
+</div>
+</section>
+<div class="rule-spectrum"></div>
+<!-- PHILOSOPHY -->
+<section class="section philosophy">
+<div class="philosophy-grid">
+<div>
+<p class="s-eyebrow">Philosophy</p>
+<p class="phil-quote">"Real learning doesn't happen to us. It happens through us — when the body, the voice, and the mind are all in the room."</p>
+</div>
+<div>
+<p class="how-title">How This Works</p>
+<ul class="how-list">
+<li>Sessions are structured around your actual goal — exam, credential, transition, or personal growth</li>
+<li>Communication is treated as a whole-body skill, not just vocabulary or grammar</li>
+<li>Dialogue drives the process — your experience is the primary material</li>
+<li>Emotional intelligence and nervous system awareness are embedded throughout</li>
+<li>Progress is measured in real capability, not completion of modules</li>
+<li>Collaboration with aligned practitioners is part of the model</li>
+</ul>
+</div>
+</div>
+</section>
+<div class="rule"></div>
+<!-- FOUNDATIONS -->
+<section class="section foundations">
+<div class="section-inner">
+<p class="s-eyebrow">Theoretical Roots</p>
+<h2 class="s-title">Grounded in practice and research.</h2>
+<p class="s-body">The Prism Method™ draws on multiple disciplines — not as a display of theory, but because different people need different doors in.</p>
+<div class="found-grid">
+<div class="found-item">Experiential Learning Theory</div>
+<div class="found-item">Somatic &amp; Body-Based Practice</div>
+<div class="found-item">Constructivist Psychology</div>
+<div class="found-item">Humanistic Psychology</div>
+<div class="found-item">Emotional Intelligence</div>
+<div class="found-item">Neuro-Linguistic Programming</div>
+<div class="found-item">Dialogical Education</div>
+<div class="found-item">Expressive Arts</div>
+<div class="found-item">Reiki &amp; Energy Work</div>
+<div class="found-item">Dogme / Emergent Learning</div>
+<div class="found-item">Organizational Learning</div>
+<div class="found-item">Neuroscience of Emotion</div>
+</div>
+</div>
+</section>
+<div class="rule"></div>
+<!-- ABOUT -->
+<section class="section about" id="about">
+<div class="section-inner">
+<p class="s-eyebrow">About</p>
+<div class="about-grid">
+<div class="about-id">
+<h2 class="about-name">Christopher Michael</h2>
+<p class="about-role">Kiprisma Advisory · The Prism Method™</p>
+<ul class="about-meta">
+<li>
+<span class="meta-label">Availability</span>
+<span>In-person &amp; remote</span>
+</li>
+<li>
+<span class="meta-label">Contact</span>
+<a href="mailto:contact@kiprisma.com">contact@kiprisma.com</a>
+</li>
+</ul>
+</div>
+<div class="about-text">
+<p style="font-family:var(--serif);font-size:1.15rem;font-weight:300;color:var(--text-primary);line-height:1.7;margin-bottom:1.4rem;">Kiprisma is a fluid navigation through diverse mediums.</p>
+<p>The name begins with Ki — life force, the animating energy that moves through and connects. Not a metaphor. The organizing principle of everything that follows.</p>
+<p>Christopher Michael has worked at the intersection of language, body, learning, and human systems for over thirty years — across Brazil and the United States. Trained in psychology and management, grounded in movement, music, and the martial art of Ki Aikido, his practice draws on a full spectrum of human intelligence and communicative form.</p>
+<p>Currently based in the greater Boston area. Working between Boston and New York City, and online.</p>
+<p style="border-top:1px solid rgba(255,255,255,0.07);margin-top:1.6rem;padding-top:1.6rem;">The practice began in Brazil in the early 1990s — in dance conservatory, contact improvisation, physical theater, and the language institutions of Curitiba. Thirty years of teaching, coordinating, training, interpreting, and advising across two continents and multiple institutional contexts followed. A B.A. in Psychology and M.S. in Management from Lesley University, Cambridge MA. NAFSA Management Development Program, Washington DC. Cambridge C2 Proficiency. Ongoing study in financial regulation and compliance.</p>
+<p>Ki Society membership and Ki Aikido practice inform everything — the quality of attention, the capacity to redirect rather than oppose, the commitment to presence over performance.</p>
+<p>Kiprisma is the current form of a practice that has always been in motion.</p>
+<p style="margin-top:1.6rem;font-size:0.68rem;color:var(--text-tertiary);line-height:1.9;border-top:1px solid rgba(255,255,255,0.07);padding-top:1.2rem;">Christopher Michael is an independent educator, consultant, and practitioner. His work draws on extensive training in psychology, management, and human development, rooted in these foundational disciplines across all aspects of his practice. Advisory and consulting services are complementary and non-transactional in scope. Reiki and energy sessions are offered as complementary wellness practices in support of emotional regulation and the alignment of mind, body, and expression.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- CONNECT -->
+<section class="connect" id="connect">
+<div class="connect-inner">
+<p class="s-eyebrow" style="justify-content:center;">Connect</p>
+<h2>Ready to begin?</h2>
+<p>Whether you're preparing for an exam, exploring somatic work, or simply curious — reach out. Available in-person in Boston & Greater Boston, MA and via video call.</p>
+<div class="connect-actions">
+<a class="btn btn-primary" href="https://calendar.app.google/biHaFJwmsgsznr168">Book a Session</a>
+<a class="btn btn-outline" href="mailto:contact@kiprisma.com">Send a Message</a>
+</div>
+</div></section>
