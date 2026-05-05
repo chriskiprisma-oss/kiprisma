@@ -424,19 +424,21 @@ body.inverted nav { background: rgba(240,244,252,0.97); }
 /* ── ABOUT ── */
 .about { background: var(--bg-panel); }
 .about-grid {
-  display: grid; grid-template-columns: 260px 1fr;
+  display: grid; grid-template-columns: minmax(220px, 280px) 1fr;
   gap: 1px; background: var(--rule); border: 1px solid var(--rule);
+  overflow: hidden;
 }
-.about-id { background: var(--bg-panel); padding: 2.5rem; }
+.about-id { background: var(--bg-panel); padding: 2.5rem; min-width: 0; overflow: hidden; }
 .about-name {
   font-family: var(--serif); font-weight: 300; font-size: 1.65rem;
   color: var(--text-primary); margin-bottom: 0.3rem; line-height: 1.2;
+  word-wrap: break-word;
 }
 .about-role {
-  font-size: 0.58rem; font-weight: 400; letter-spacing: 0.14em;
+  font-size: 0.56rem; font-weight: 400; letter-spacing: 0.12em;
   text-transform: uppercase; color: var(--text-tertiary);
   margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid var(--rule);
-  white-space: nowrap;
+  white-space: normal; line-height: 2;
 }
 .about-meta { list-style: none; }
 .about-meta li {
@@ -692,11 +694,8 @@ footer {
     <h3>English for exams, work, and everyday life.</h3>
     <p>This is the main focus of the practice. Whether you are an international student preparing for TOEFL or IELTS, a professional needing stronger workplace English, or an entrepreneur who wants to communicate without relying on translation tools — sessions are practical, structured, and built around your specific goal. You work at your own level. Progress is real and measurable.</p>
     <div class="stream-tags">
-      <span class="stag">TOEFL</span>
-      <span class="stag">IELTS</span>
-      <span class="stag">Duolingo English Test</span>
-      <span class="stag">NCLEX</span>
-      <span class="stag">LSAT</span>
+      <span class="stag">English Proficiency Exam Prep</span>
+      <span class="stag">Professional Exam Prep</span>
       <span class="stag">College Admissions</span>
       <span class="stag">Workplace English</span>
       <span class="stag">Entrepreneurs</span>
@@ -709,11 +708,14 @@ footer {
     <div class="stream-bar"></div>
     <p class="stream-id">Stream 02 — Whole-Person Practice</p>
     <h3>Communication through body and energy.</h3>
-    <p>For those interested in exploring communication at a deeper level — through body awareness, movement, and energy work. This stream draws on somatic practice, reiki, and Ki Aikido principles. Available upon inquiry for those who feel ready to explore beyond language alone.</p>
+    <p>For those interested in exploring communication through body awareness, movement, and energy work. Sessions draw on Ki Society principles through Ki Development and Reiki practice. Available upon inquiry for those ready to explore beyond language alone.</p>
+    <div style="margin: 1.2rem 0; padding: 1rem 1.2rem; border-left: 1px solid var(--copper); background: var(--bg-mid);">
+      <p style="font-size:0.65rem; color:var(--text-tertiary); letter-spacing:0.08em; line-height:1.9; margin:0;">Reiki Master level — trained through Reiki Levels I, II, and III and Master Teacher level in Medford, MA, certified by Patricia Venter.</p>
+    </div>
     <div class="stream-tags">
-      <span class="stag">Somatic Practice</span>
+      <span class="stag">Ki Development</span>
       <span class="stag">Reiki</span>
-      <span class="stag">Ki Aikido</span>
+      <span class="stag">Body Awareness</span>
       <span class="stag">Movement</span>
       <span class="stag">Upon Inquiry</span>
     </div>
@@ -782,7 +784,7 @@ footer {
       <li>Your experience and questions drive the conversation — not a fixed syllabus</li>
       <li>Speaking, listening, writing, and reading are all part of the work</li>
       <li>Progress is measured in real communication ability — not test scores alone</li>
-      <li>Sessions are one-on-one or in small groups — never more than a few people</li>
+      <li>Sessions are one-on-one or in small groups</li>
     </ul>
   </div>
 </div>
@@ -822,7 +824,7 @@ footer {
 <div class="about-grid">
   <div class="about-id">
     <h2 class="about-name">Christopher Michael</h2>
-    <p class="about-role">Kiprisma Advisory · The Prism Method™</p>
+    <p class="about-role">Kiprisma Practice<br>The Prism Method™</p>
     <ul class="about-meta">
       <li>
         <span class="meta-label">Availability</span>
@@ -836,13 +838,11 @@ footer {
   </div>
   <div class="about-text">
     <p style="font-family:var(--serif);font-size:1.15rem;font-weight:300;color:var(--text-primary);line-height:1.7;margin-bottom:1.4rem;">Kiprisma is a fluid navigation through diverse mediums.</p>
-    <p>The name begins with Ki — life force, the animating energy that moves through and connects. Not a metaphor. The organizing principle of everything that follows.</p>
-    <p>Christopher Michael has worked at the intersection of language, body, learning, and human systems for over thirty years — across Brazil and the United States. Trained in psychology and management, grounded in movement, music, and the martial art of Ki Aikido, his practice draws on a full spectrum of human intelligence and communicative form.</p>
-    <p>Currently based in the greater Boston area. Working between Boston and New York City, and online.</p>
-    <p style="border-top:1px solid var(--rule);margin-top:1.6rem;padding-top:1.6rem;">The practice began in Brazil in the early 1990s — in dance conservatory, contact improvisation, physical theater, and the language institutions of Curitiba. Thirty years of teaching, coordinating, training, interpreting, and advising across two continents and multiple institutional contexts followed. A B.A. in Psychology and M.S. in Management from Lesley University, Cambridge MA. NAFSA Management Development Program, Washington DC. Cambridge C2 Proficiency. Ongoing study in financial regulation and compliance.</p>
-    <p>Ki Society membership and Ki Aikido practice inform everything — the quality of attention, the capacity to redirect rather than oppose, the commitment to presence over performance.</p>
+    <p>Christopher Michael has worked at the intersection of language, learning, and human development for over thirty years — across Brazil and the United States. Studies in Psychology and Management at Lesley University, Cambridge MA, alongside practice in ShinShin Toitsu Aikido — founded by Koichi Tohei Sensei and grounded in the Ki principle that mind moves body — through Ki Society, shaped the quality of attention and presence he brings to the work.</p>
+    <p>The practice began in Brazil in the early 1990s. After founding and directing his own language school in Curitiba for three years, he went on to teach and coordinate at some of the city's leading cultural and language institutions — including Interamericano Brazil-USA Cultural Center, Centro Europeu, and Associação Brasileira de Cultura Inglesa — serving university faculty, executives, engineers, and professionals across a wide range of fields and contexts. At Cultura Inglesa he conducted Cambridge exam preparation at FCE and CAE levels, participated in official Cambridge ESOL exam invigilation, and holds Cambridge University Press &amp; Assessment, UK qualifications — Certificate of Proficiency in English (C2) and Teaching Knowledge Test (TKT), Modules 1, 2, and 3 — earned through that engagement prior to returning to the United States in 2016.</p>
+    <p>In Boston, teaching extended into community and entrepreneurial contexts through the YMCA International Language Center — English for New Bostonians program — alongside language institutions in the city, including appointment as International Student Officer and Designated School Official under federal SEVIS compliance, culminating in the completion of the NAFSA Management Development Program, Washington DC.</p>
     <p>Kiprisma is the current form of a practice that has always been in motion.</p>
-    <p style="margin-top:1.6rem;font-size:0.68rem;color:var(--text-tertiary);line-height:1.9;border-top:1px solid var(--rule);padding-top:1.2rem;">Christopher Michael is an independent educator, consultant, and practitioner. His work draws on extensive training in psychology, management, and human development, rooted in these foundational disciplines across all aspects of his practice. Advisory and consulting services are complementary and non-transactional in scope. Reiki and energy sessions are offered as complementary wellness practices in support of emotional regulation and the alignment of mind, body, and expression.</p>
+    <p style="margin-top:1.6rem;font-size:0.68rem;color:var(--text-tertiary);line-height:1.9;border-top:1px solid var(--rule);padding-top:1.2rem;">Christopher Michael is an independent educator and practitioner. Services are educational and complementary in nature. Reiki and energy sessions are offered as complementary wellness practices in support of emotional regulation and the alignment of mind, body, and expression.</p>
   </div>
 </div>
 </div>
@@ -862,7 +862,7 @@ footer {
 </section>
 
 <footer>
-  <span>Kiprisma Advisory · The Prism Method™</span>
+  <span>Kiprisma Practice · The Prism Method™</span>
   <div class="footer-bar"></div>
   <span>BOS &gt; NYC · Online · 2026</span>
 </footer>
