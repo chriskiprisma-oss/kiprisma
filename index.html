@@ -124,6 +124,43 @@ body.inverted nav { background: rgba(240,244,252,0.97); }
   font-size: 0.58rem; letter-spacing: 0.1em; color: var(--text-dim);
 }
 
+/* hamburger */
+.nav-hamburger {
+  display: none; flex-direction: column; gap: 5px;
+  cursor: pointer; padding: 4px; z-index: 300;
+  background: none; border: none;
+}
+.nav-hamburger span {
+  display: block; width: 22px; height: 1.5px;
+  background: var(--text-secondary); transition: all 0.25s;
+}
+.nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.nav-hamburger.open span:nth-child(2) { opacity: 0; }
+.nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+/* mobile dropdown */
+.nav-mobile {
+  display: none; position: fixed;
+  top: 54px; left: 0; right: 0;
+  background: rgba(8,12,16,0.98);
+  backdrop-filter: blur(24px);
+  border-bottom: 1px solid var(--rule);
+  padding: 1.5rem 2rem; z-index: 199;
+  flex-direction: column; gap: 0;
+}
+body.inverted .nav-mobile { background: rgba(240,244,252,0.98); }
+.nav-mobile.open { display: flex; }
+.nav-mobile a {
+  font-family: var(--mono);
+  font-size: 0.72rem; font-weight: 300;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  text-decoration: none; color: var(--text-secondary);
+  padding: 0.9rem 0; border-bottom: 1px solid var(--rule);
+  transition: color 0.2s;
+}
+.nav-mobile a:last-child { border-bottom: none; }
+.nav-mobile a:hover { color: var(--copper); }
+
 /* ── HERO ── */
 .hero {
   position: relative; z-index: 1;
@@ -509,6 +546,8 @@ footer {
 @media (max-width: 600px) {
   nav { padding: 0 1.5rem; }
   .nav-links { display: none; }
+  .nav-ref { display: none; }
+  .nav-hamburger { display: flex; }
   .hero-left { padding: 80px 1.5rem 60px; }
   .section { padding: 64px 1.5rem; }
   .cycle-grid { grid-template-columns: 1fr; }
@@ -569,8 +608,20 @@ footer {
     <li><a href="/rates">Rates</a></li>
     <li><a href="#connect">Connect</a></li>
   </ul>
+  <button class="nav-hamburger" id="hamburgerBtn" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
   <span class="nav-ref">Kiprisma · 2026</span>
 </nav>
+
+<!-- MOBILE NAV -->
+<div class="nav-mobile" id="mobileNav">
+  <a href="#streams" class="mobile-link">Practice</a>
+  <a href="#cycle" class="mobile-link">Method</a>
+  <a href="#about" class="mobile-link">About</a>
+  <a href="/rates" class="mobile-link">Rates</a>
+  <a href="#connect" class="mobile-link">Connect</a>
+</div>
 
 <!-- HERO -->
 <div class="hero">
@@ -873,6 +924,23 @@ const invertBtn = document.getElementById('invertBtn');
 invertBtn.addEventListener('click', () => {
   document.body.classList.toggle('inverted');
 });
+
+// Hamburger menu
+const hamburgerBtn = document.getElementById('hamburgerBtn');
+const mobileNav = document.getElementById('mobileNav');
+
+if (hamburgerBtn && mobileNav) {
+  hamburgerBtn.addEventListener('click', () => {
+    hamburgerBtn.classList.toggle('open');
+    mobileNav.classList.toggle('open');
+  });
+  document.querySelectorAll('.mobile-link').forEach(link => {
+    link.addEventListener('click', () => {
+      hamburgerBtn.classList.remove('open');
+      mobileNav.classList.remove('open');
+    });
+  });
+}
 
 // Foundations — click to expand/collapse
 document.querySelectorAll('.found-item').forEach(item => {
